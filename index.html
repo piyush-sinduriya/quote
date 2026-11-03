@@ -287,54 +287,302 @@
       .editor { width: 100%; max-width: none; }
       .workbench > .preview-wrap { display: block; width: 100% !important; margin-top: 18px; max-height: none; overflow: visible; }
     }
+    /* Mobile-only and desktop-only helper rules */
+    .mobile-studio-tabs { display: none !important; }
+    .mobile-only-btn { display: none !important; }
+    .preview-mobile-hint { display: none !important; }
+    .mobile-table-tip { display: none !important; }
+
     @media (max-width: 900px) {
       .fields, .fields.three, .charge-grid { grid-template-columns: minmax(0, 1fr); }
       .field.full, .charges-divider { grid-column: auto; }
       .page-wrap { padding-right: 18px; padding-left: 18px; }
       .page-heading { align-items: flex-start; }
-      .preview-wrap { padding: 11px; border-radius: 14px; }
-      .quote-page { width: 100%; }
+      .preview-wrap { padding: 12px; border-radius: 14px; }
     }
-    @media (max-width: 720px) {
-      .login-screen { padding: 16px; }
-      .login-card { padding: 25px 20px; border-radius: 18px; }
-      .app-shell { display: block; padding-bottom: 62px; }
-      .sidebar { position: fixed; z-index: 10; right: 0; bottom: 0; left: 0; height: 60px; padding: 5px 8px; border-top: 1px solid var(--line); border-right: 0; flex-direction: row; gap: 0; }
-      .brand, .sidebar-bottom, .nav-label { display: none; }
-      .sidebar nav { width: 100%; }
-      .nav-list { height: 100%; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 3px; }
-      .nav-button { position: relative; height: 49px; flex-direction: column; justify-content: center; gap: 3px; padding: 4px 2px; font-size: 9px; }
-      .nav-icon { font-size: 15px; }
-      .nav-count { position: absolute; top: 1px; right: calc(50% - 19px); min-width: 15px; padding: 1px 4px; font-size: 8px; }
+
+    @media (max-width: 768px) {
+      /* Login screen on mobile */
+      .login-screen { padding: 16px 12px; }
+      .login-card { width: 100%; max-width: 100%; padding: 24px 18px; border-radius: 18px; }
+      .login-brand { gap: 10px; margin-bottom: 20px; }
+      .login-brand img { width: 62px; height: 40px; }
+      .login-card h1 { font-size: 24px; margin-bottom: 4px; }
+      .login-card .subtitle { font-size: 13px; margin-bottom: 18px; }
+      .login-fields input { min-height: 48px; font-size: 16px !important; }
+      .login-fields button { min-height: 48px; font-size: 15px; font-weight: 700; }
+
+      /* App Shell & Layout on Mobile */
+      .app-shell { display: block; padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
       .app-main { min-height: 100vh; }
-      .topbar { height: 55px; padding: 0 16px; }
-      .save-hint { display: none; }
-      .page-wrap { padding: 22px 14px 28px; }
-      .page-heading { align-items: flex-start; }
-      .page-heading > .button { flex: none; }
-      .page-heading .subtitle { max-width: 360px; }
-      .workbench { grid-template-columns: minmax(0,1fr); gap: 18px; }
-      .editor { gap: 11px; }
-      .form-card { padding: 15px 13px; }
-      .fields.three { grid-template-columns: repeat(2,minmax(0,1fr)); }
-      .settings-layout { grid-template-columns: minmax(0,1fr); }
-      .quote-row { align-items: flex-start; flex-wrap: wrap; }
-      .quote-row-total { margin-left: 52px; }
-      .quote-row-actions { width: auto; flex: 1 1 calc(100% - 52px); justify-content: flex-start; margin-left: 52px; }
-      .quote-page { min-height: 620px; padding: 14px 12px; }
-      .quote-letterhead { grid-template-columns: 25% minmax(0, 1fr); }
-      .quote-band { font-size: 18px; }
-      .library-toolbar { flex-direction: column; }
-      .library-toolbar input { max-width: none; }
-    }
-    @media (max-width: 410px) {
-      .fields, .fields.three, .charge-grid { grid-template-columns: minmax(0,1fr); }
-      .field.full, .charges-divider { grid-column: auto; }
-      .quote-meta-row { grid-template-columns: 28% minmax(0, 1fr); }
-      .quote-items th { font-size: 7px; }
-      .quote-items td { padding: 3px 2px; font-size: 7.5px; }
-      .quote-item-image-box { height: 92px; }
-      .quote-row-actions { width: 100%; flex-basis: 100%; margin-left: 0; }
+      
+      /* Bottom Fixed Navigation Bar */
+      .sidebar {
+        position: fixed !important;
+        z-index: 1000 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        height: calc(58px + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 4px 6px env(safe-area-inset-bottom, 0px) !important;
+        border-top: 1px solid var(--line) !important;
+        border-right: 0 !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.07) !important;
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 0 !important;
+      }
+      .brand, .sidebar-bottom, .nav-label { display: none !important; }
+      .sidebar nav { width: 100% !important; }
+      .nav-list {
+        height: 100% !important;
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 2px !important;
+      }
+      .nav-button {
+        position: relative !important;
+        height: 50px !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 2px !important;
+        padding: 3px 2px !important;
+        font-size: 9.5px !important;
+        font-weight: 650 !important;
+        border-radius: 8px !important;
+      }
+      .nav-icon { font-size: 16px !important; line-height: 1 !important; }
+      .nav-count {
+        position: absolute !important;
+        top: 2px !important;
+        right: calc(50% - 16px) !important;
+        min-width: 14px !important;
+        padding: 1px 4px !important;
+        font-size: 8px !important;
+        border-radius: 10px !important;
+      }
+
+      /* Topbar on Mobile */
+      .topbar {
+        height: 54px !important;
+        padding: 0 14px !important;
+      }
+      .breadcrumbs {
+        font-size: 12px !important;
+        max-width: 50% !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+      .save-hint { display: none !important; }
+      .top-actions { gap: 6px !important; }
+      .top-actions .button { padding: 6px 10px !important; font-size: 12px !important; }
+
+      /* Page Wrap & Headings */
+      .page-wrap { padding: 16px 12px 30px !important; }
+      .page-heading {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        margin-bottom: 16px !important;
+      }
+      .page-heading h1 { font-size: 22px !important; line-height: 1.2 !important; }
+      .page-heading .subtitle { font-size: 12.5px !important; max-width: none !important; }
+      .page-heading > .button { width: 100% !important; justify-content: center !important; padding: 11px !important; }
+
+      /* Mobile Studio Tabs (Form vs Preview) */
+      .mobile-studio-tabs {
+        display: flex !important;
+        gap: 6px !important;
+        margin-bottom: 16px !important;
+        padding: 4px !important;
+        background: #e2e8f0 !important;
+        border-radius: 12px !important;
+        position: sticky !important;
+        top: 54px !important;
+        z-index: 25 !important;
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08) !important;
+      }
+      .mobile-tab-btn {
+        flex: 1 !important;
+        padding: 9px 4px !important;
+        font-size: 12.5px !important;
+        font-weight: 700 !important;
+        border: 0 !important;
+        border-radius: 9px !important;
+        background: transparent !important;
+        color: #475569 !important;
+        text-align: center !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+      }
+      .mobile-tab-btn.active {
+        background: #fff !important;
+        color: var(--blue) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+      }
+      .mobile-only-btn { display: inline-flex !important; }
+      .preview-mobile-hint { display: inline-flex !important; }
+      .mobile-table-tip { display: flex !important; }
+
+      /* Tab visibility logic on mobile */
+      .workbench.mobile-tab-editor .editor { display: grid !important; }
+      .workbench.mobile-tab-editor .preview-wrap { display: none !important; }
+      .workbench.mobile-tab-preview .editor { display: none !important; }
+      .workbench.mobile-tab-preview .preview-wrap { display: block !important; margin-top: 0 !important; }
+      .workbench.mobile-tab-both .editor { display: grid !important; }
+      .workbench.mobile-tab-both .preview-wrap { display: block !important; }
+
+      /* Form Cards & Inputs */
+      .form-card { padding: 16px 13px !important; border-radius: 14px !important; }
+      .card-title { font-size: 15px !important; }
+      .card-caption { font-size: 11.5px !important; }
+      .step-number { width: 24px !important; height: 24px !important; font-size: 12px !important; }
+      .fields, .fields.three, .charge-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+      .field.full, .charges-divider { grid-column: auto !important; }
+      .field label { font-size: 12px !important; margin-bottom: 5px !important; }
+      input, select, textarea {
+        font-size: 15px !important;
+        padding: 10px 12px !important;
+        border-radius: 8px !important;
+      }
+      .business-row { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; }
+
+      /* Item Table (Step 4) */
+      .item-table-wrap {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 10px !important;
+        border: 1px solid var(--line) !important;
+        margin: 8px 0 !important;
+      }
+      .item-table { min-width: 720px !important; }
+      .item-table th { padding: 8px 6px !important; font-size: 10px !important; background: #f8fafc !important; }
+      .item-table td { padding: 6px 4px !important; }
+      .item-table input { font-size: 13px !important; padding: 8px 6px !important; }
+      .item-actions { flex-direction: column !important; align-items: stretch !important; gap: 8px !important; }
+      .item-actions .button { width: 100% !important; justify-content: center !important; padding: 10px !important; }
+      .mobile-table-tip {
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        color: #64748b;
+        background: #f1f5f9;
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      /* Bottom Actions in Quotation */
+      .bottom-actions { flex-direction: column !important; align-items: stretch !important; gap: 10px !important; }
+      .bottom-actions .action-group { flex-direction: column !important; width: 100% !important; gap: 8px !important; }
+      .bottom-actions .button { width: 100% !important; justify-content: center !important; padding: 12px !important; font-size: 14.5px !important; }
+
+      /* PREVIEW SECTION ON MOBILE - A4 NEVER SQUEEZED */
+      .preview-wrap {
+        padding: 12px 6px !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+      .preview-heading {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        margin-bottom: 12px !important;
+      }
+      .preview-mobile-hint {
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--blue);
+        background: var(--blue-pale);
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+      }
+      .quote-preview-pages {
+        width: 100% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 4px 2px 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 16px !important;
+      }
+      .quote-page {
+        width: 760px !important;
+        min-width: 760px !important;
+        max-width: 760px !important;
+        min-height: auto !important;
+        margin: 0 auto !important;
+        padding: 20px 22px !important;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08) !important;
+        border: 1px solid #d8dce2 !important;
+        border-radius: 6px !important;
+        background: #fff !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Saved Quotes & Drafts Cards on Mobile */
+      .quote-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 15px 13px !important;
+      }
+      .quote-row-main { width: 100% !important; }
+      .quote-row-total {
+        margin-left: 0 !important;
+        font-size: 15px !important;
+        font-weight: 800 !important;
+        color: var(--blue) !important;
+      }
+      .quote-row-actions {
+        width: 100% !important;
+        margin-left: 0 !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+      }
+      .quote-row-actions .button {
+        flex: 1 1 calc(33.333% - 6px) !important;
+        min-width: 58px !important;
+        padding: 8px 4px !important;
+        font-size: 11.5px !important;
+        justify-content: center !important;
+      }
+      .library-toolbar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+      }
+      .library-toolbar input { width: 100% !important; max-width: none !important; }
+      .library-toolbar .button { width: 100% !important; justify-content: center !important; }
+
+      /* Settings & Catalog */
+      .settings-layout { grid-template-columns: 1fr !important; gap: 16px !important; }
+      .catalog-table { min-width: 640px !important; }
+      .table-wrap {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border: 1px solid var(--line) !important;
+        border-radius: 10px !important;
+      }
+
+      /* Preview Modal on Mobile */
+      .quote-modal { padding: 6px !important; }
+      .quote-modal-panel { padding: 10px 6px !important; border-radius: 12px !important; }
+      .quote-modal-toolbar { margin: -10px -6px 10px !important; padding: 10px !important; flex-wrap: wrap !important; gap: 8px !important; }
+      .quote-modal .quote-preview-pages { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
+      .quote-modal .quote-page { width: 760px !important; min-width: 760px !important; }
     }
     @page { size: A4; margin: 0; }
     @media print {
@@ -450,6 +698,18 @@
       var adminPassword = 'SchoolDecor@2026!';
       var applicationStarted = false;
       var view = 'new';
+      var currentMobileTab = 'editor';
+      function setMobileTab(tab) {
+        currentMobileTab = tab;
+        var workbench = document.querySelector('.workbench');
+        if (workbench) {
+          workbench.classList.remove('mobile-tab-editor', 'mobile-tab-preview', 'mobile-tab-both');
+          workbench.classList.add('mobile-tab-' + tab);
+        }
+        document.querySelectorAll('[data-mobile-tab]').forEach(function (btn) {
+          btn.classList.toggle('active', btn.getAttribute('data-mobile-tab') === tab);
+        });
+      }
       var draftDirty = false;
       var draftPersistTimer = null;
       var toastTimer;
@@ -1069,7 +1329,12 @@
           '<div><p class="eyebrow">QUOTE STUDIO</p><h1>Let’s make a quotation</h1><p class="subtitle">Add the details once. Your quotation updates as you type.</p></div>' +
           '<button class="button" data-action="print"><span>⎙</span> Print quotation</button>' +
           '</div>' +
-          '<div class="workbench">' +
+          '<div class="mobile-studio-tabs" id="mobile-tabs">' +
+            '<button type="button" class="mobile-tab-btn' + (currentMobileTab === 'editor' ? ' active' : '') + '" data-mobile-tab="editor">📝 Edit Form</button>' +
+            '<button type="button" class="mobile-tab-btn' + (currentMobileTab === 'preview' ? ' active' : '') + '" data-mobile-tab="preview">📄 Live Preview</button>' +
+            '<button type="button" class="mobile-tab-btn' + (currentMobileTab === 'both' ? ' active' : '') + '" data-mobile-tab="both">◫ Both</button>' +
+          '</div>' +
+          '<div class="workbench mobile-tab-' + currentMobileTab + '">' +
             '<section class="editor" aria-label="Quotation details">' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">1</span><div><h2 class="card-title">Your business</h2><p class="card-caption">Appears at the top of your quotation</p></div></div><button class="text-button" data-view="settings">Edit business details →</button></div>' +
                 '<div class="business-row"><div style="min-width:0"><div class="business-name">' + escapeHtml(profile.name || 'Add your business name') + '</div><div class="business-sub">' + escapeHtml(profile.gstin ? 'GSTIN: ' + profile.gstin : 'Name, address and GSTIN') + '</div></div><button class="text-button" data-view="settings">Set up</button></div></div>' +
@@ -1092,7 +1357,7 @@
                   '<div class="field"><label>Currency</label><select data-bind="currency">' + Object.keys(currencyOptions).map(function (code) { return '<option value="' + code + '"' + (quote.currency === code ? ' selected' : '') + '>' + code + ' ' + currencyOptions[code] + '</option>'; }).join('') + '</select></div>' +
                 '</div></div>' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">4</span><div><h2 class="card-title">Items and services</h2><p class="card-caption">Click code or product name to browse all products. Price and GST fill from the catalog; enter quantity.</p></div></div><button class="text-button" data-view="catalog">Manage product catalog →</button></div>' +
-                '<div class="item-table-wrap"><table class="item-table"><thead><tr><th>Code</th><th>Photo</th><th>Item / service</th><th>Specifications</th><th>Qty</th><th>Rate</th><th>GST %</th><th>Amount</th><th></th></tr></thead><tbody>' + items + '</tbody></table></div>' +
+                '<div class="mobile-table-tip">👉 Swipe table sideways to see all columns</div><div class="item-table-wrap"><table class="item-table"><thead><tr><th>Code</th><th>Photo</th><th>Item / service</th><th>Specifications</th><th>Qty</th><th>Rate</th><th>GST %</th><th>Amount</th><th></th></tr></thead><tbody>' + items + '</tbody></table></div>' +
                 '<div class="item-actions"><button class="button soft small" data-action="add-item">＋ Add item</button><span class="item-tip">Saved product GST is added to the rate shown.</span></div></div>' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">5</span><div><h2 class="card-title">Freight, tax and other charges</h2><p class="card-caption">Add only what applies to this quotation</p></div></div></div>' +
                 '<div class="charge-grid">' +
@@ -1110,9 +1375,9 @@
                 '</div></div>' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">6</span><div><h2 class="card-title">Terms and notes</h2><p class="card-caption">One line per term. Edit these to suit your business.</p></div></div></div>' +
                 '<div class="fields"><div class="field full"><label class="terms-toggle"><input type="checkbox" data-bind="includeTerms"' + (quote.includeTerms !== false ? ' checked' : '') + '><span>Include terms and conditions in this quotation</span></label></div><div class="field full"><label>Terms and conditions</label><textarea data-bind="terms" placeholder="Payment, delivery, validity…">' + escapeHtml(quote.terms) + '</textarea></div><div class="field full"><label>Note for customer (optional)</label><textarea data-bind="note" placeholder="A short thank-you or any extra information" style="min-height:60px">' + escapeHtml(quote.note) + '</textarea></div></div></div>' +
-              '<div class="bottom-actions"><button class="button primary" data-action="save-quote">Save &amp; print</button><div class="action-group"><button class="button" data-action="print">Print quotation</button><button class="button" data-view="saved">View saved</button></div></div>' +
+              '<div class="bottom-actions"><button class="button primary" data-action="save-quote">Save &amp; print</button><div class="action-group"><button class="button" data-action="print">Print quotation</button><button class="button soft mobile-only-btn" data-action="switch-to-preview">👁️ View live preview</button><button class="button" data-view="saved">View saved</button></div></div>' +
             '</section>' +
-            '<section class="preview-wrap" aria-label="Quotation preview"><div class="preview-heading"><strong>Live preview</strong><span>A4 paper · up to 5 products per page</span></div><div id="preview" class="quote-preview-pages"></div></section>' +
+            '<section class="preview-wrap" aria-label="Quotation preview"><div class="preview-heading"><div><strong>Live preview</strong> <span class="preview-mobile-hint">👉 Swipe horizontally to view full A4 sheet</span></div><div><button type="button" class="button soft small mobile-only-btn" data-action="switch-to-editor">✏️ Edit details</button> <span>A4 paper · up to 5 products per page</span></div></div><div id="preview" class="quote-preview-pages"></div></section>' +
           '</div>';
       }
 
@@ -2023,6 +2288,24 @@
       });
 
       document.addEventListener('click', function (event) {
+        var mobileTabBtn = event.target.closest('[data-mobile-tab]');
+        if (mobileTabBtn) {
+          setMobileTab(mobileTabBtn.getAttribute('data-mobile-tab'));
+          return;
+        }
+        var switchAction = event.target.closest('[data-action="switch-to-preview"]');
+        if (switchAction) {
+          setMobileTab('preview');
+          var p = document.querySelector('.preview-wrap');
+          if (p) p.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+        var switchBack = event.target.closest('[data-action="switch-to-editor"]');
+        if (switchBack) {
+          setMobileTab('editor');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
         var productOption = event.target.closest('[data-product-select]');
         if (productOption) {
           selectCatalogProduct(productOption.getAttribute('data-item-index'), productOption.getAttribute('data-product-index'));
