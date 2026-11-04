@@ -1,50 +1,9 @@
 {
-  "quotes": [
-    {
-      "number": "QT-2026-004",
-      "date": "2026-11-04",
-      "validUntil": "",
-      "currency": "INR",
-      "customer": {
-        "name": "",
-        "company": "",
-        "address": "",
-        "phone": "",
-        "email": "",
-        "gstin": ""
-      },
-      "items": [
-        {
-          "code": "51107",
-          "name": "Drum Set",
-          "spec": "Sensory Music Park Equipment\nMin. height: 23 inch, Max. height: 34 inch, Width: 6-16 inch",
-          "qty": "1",
-          "rate": 51107,
-          "gstRate": "15",
-          "discount": "12",
-          "discountType": "percent",
-          "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAB+ANkDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDFe6Opajq9wwP+k2zZyACxVV5wM4ztJx2zVy6Jl8OJJnpcMR+KRvWTYMFllGTxbyr0xn5DWojeZ4Pl6ZVkb849v/stedN+6n/eOyh/FXmmZ+lEpqCnP3Jon/75mP8AjV3XF8jVZwOzu/8A49u/rWVbzCO4nfIwsTN+To39a1/FUiJrN0p6sXQfUorf0rpr6YuPmv8AIWF+CovMrWzfZb9snAgvoyT6YxS+L/3Wo6tjjEyS/oP8Kzp9QS6bU7iEOFk23KA4BwTkfjxWj4341HWRg/6mJv51jX0xKfl/kVgrcs0v60MK5BL6gvbKGur0GT/iqdIb+/bsP/HCf6VyVwWNzqAHQwq4+uK6DQZGOv8AhtycBomB+vlNXVmH8B+jOOL/ANoj6kt7+71S6H927Q/qprL1o48Tt/tSTj/x8VY1sSNea7HuOfN+U+nArIuraS3udPSUgyRkhiD1+WsssSunfoj0ca7UrepBrQzYN/10Fa2qystlGy7cMoBJAOBTrcWTJN9sshdruAVGkZFH/fOD+tWLzUNsagWNptGAFaIPj/vrNeziMFOu009D5d4hU5JdjutdCutmWViQ5xtPQ46n25/lXndxjeAR0dh/OrEvjDWpXVGmiIB4BhTj9KyJtYvXkJkaPO/JAiUDP0AxXl4fJJ0E7zR7sc8jLTkFueIHH+1/WmwnbGwp10w+yyOSB3qGBxJCWU5XPUV6lHSaXkY4ppwbI7D/AJCsf1b+RrW1r7sJ/wBisXT3VtVQKR8rMD+RrV1+ZYoYC2em3iuHF61VY8yUG5o9D8HH/imLP/db/wBCNeeayf8Ai4N5/uf0Fd94Lff4XtTggAMP/HzXB6qFfxzfSkkY+UDHXgV87hYtYup8/wAz6uCtRgvQTVD/AKC/+exqjp//ACDD/wBdx/KrWtMY9NZgM845/Gs+xlxGIsfITvwPXFe7hVeSYsZUUZcr6ofqDfuagtj/AKIP+uo/k1GqsyWu4HHPFNgkPlqOMDBxjvXpOVqiR49Z2i0W88U3QpJLfWoplwrKcqXOFzkdTTGO5WYsoPZcVl2ZOGAPzFjW2Knyo4aMbs9HdgbiQi4+0ZOTLuzuPfmq3Pv+VVtHJGnxqcjg8H8akz7n8q8GW5x1X77IbJB9vtk6CVin5gir2mQmTw9dqOgSI/lJID+jVWijLa0jRGONIZd4aRgoADcda6U6nYWsKolxp0QX7oBOMZz2U55rmknKPL5p/cfU0qcudTXQ4eOI+cyH+ONl/NFP9K6LxDF5l7HMRkzRpIOPWP8A+tUtxf6FK4aaXTTIP4ipPJ7/AOrqw2s6LKQ0mo6bvwVyYjnHpxHW9WTqVI1Ow6dGdPn0+I5pYcpcHbhWtom444IzXa6v4SbXJZLoXsMS3NqkZDKxYEZPIx7+tYdvqlhHtgsbq2C5G1IrcKM54xwMVrTeN9N02QWTQXLyQqqkoq7eg6c/0rix0q0pRlSV2FODoXc9Eys3gOzVpDLrRDPF5bbbQnHv96rdn4e0qwn0+Y6pcO1meALQANwR/f461i33xBtBL8lnOQRnkrzWZL8QIijbdPkP1kA/pXNJ5hVXLJafIz5sPzKV9UdVqekaTdXN1PHqFwrXByVNt904x13VyWvPBNq+beWN1jcFtrD5f3fP5Hiq58cl8AaftycZ87/7Gul1m7f+yEMNyVORkK5GBj1rqwMa+HleovI0q1Y1afKmclcXbRWUzxMwJcbSMY/HP41QvL26a1DGU5yvIUe4pLuQ/ZpFzndJgn8D/hVeZx9kZepBB/U19Mqkmr33PG9lDqijLdXHm5Mznr3qESSkqTI55/vGny/fao+gH1BqZSdjWMI9EdLOS2kup6lar6cxEG0j7v61buB/orjAxtFV4wEBxxTptc0TWvFcp06XTKqhIbaPCAgxwIpPHqBnNVrnWdSSVlW9mUKeMORisxJX3DMjfn7kVTupZDLId7jnpuNcssTG70PVVHRWNSbWdUuItsmoXLKDwHmOB+ZqCC6nnki82Z3Vc7QzZxn0/KsksxG3cx7/AHjViwz9pj69D3rnnUUk1YtRakjR1n59Mce1Z2npjTfOfl/OC59sZxWlf/NZyDH8P9Kq2y7fDxJ73Y/9ANLDO00Vi4Ju/kUtRO63wDzUViCLRmbklwAT6Yrp9L8OWeqWPn3motbZJ2okO8kdM5yPetKHw7oVpbSwHUrmRXIJIhGePxrpnjaMaur2OB4GrUhdLc41jz1zVzwVFnxTHufYMNyVLdvQAn9K3W0jw8Dxc3p+iLVjRZdG8N6zHqVkl3JOgIHmuoXBBByAPf1p18wozjZHPSyuvF3dixf7U1W5VJN67uGCFc8ehAP6Vnb/APaq7qGpHVdVuL8ps85g23OccCs3cPWuCL00PHqR5akl5l7VtGvYZ2QwjMmShV1YcEEgkE4PPQ81jzaPf7WH2fryDuH+Nen65YW8NhZ3UEKrJLcfvCP4iY2OT/3zXPT/ACyBfwrhrV50p8qPu8vw1OvR5m3ozg30a+/55Yb/AHh/jUDaNeh+UX/voV2twmCaz5uHxUxxc2dksBSS3ZnaPpF19oB2JwQSS/A/So9dUDVpnBUhsNlRx0X/AArds5hFBK2ccYBrO8Q7XvGkAAxEuRjHt/SujDVZTm7ni5zRjCEeU5a4HKt/sgVVYfI9aGzfDg9RVN1/dua9LY+bTI4WTcm8Hg5OO9ekrHHeW0XmQ4hdQ/yt1z0GOuK8xXHH1r0qzaJbC1P2g7hbrlFxxheccZrCvujtobMyvEVjZ22mh7e3EbGVQW3MTjB9TjvXNOv3k74FdRrQjOjKY55GzJGdjNn+LA5PPeuacFbxs/SuvDSvDUmuuV3Mt87znuKWJkYKsgOPUVLLF87D0BNVB0U1tJ3RMT12y1bTJtJtVuNKspXEEamUhd7YUAZyD6VoXOuWV6kZvNKtLplXAZ+So/DArk9PMb6XaboJPljBL4JBxU++yc8xAEdyhH868t1GpHWldamPdFWnuJFUIvmvhR2G48VQuRzu9Rmr0oVo5tmdvmsBx2zVScZjU+nFJdz1exT6Iprc0PTrfUYpR9okglTGCqbuDmsVxha0tCZwZgs7RcDocZ60PYyqu0bne6XBpWnxQieGGeaM5Mk0TMzfUB9vH0rUu9Q8K3NkIbvSzIokDARqIgGwR/Dz69c1w7yXoOFvSc+wJ/lUbG6fCSXDMMg/KF4x+FZpO9zklUudRFpMV4zvpaLDaqdqxs5JXueSPU5/GoZdBvk3EGLI75z/AErR8GtIbCfzHDkSnBwOm0ela038VfPYnF1I15JHfCtP2aRwzaDdhuWj/Oo20WdW+aRAPzrqJTVCduCadLF1G9Qdadty3APC9tbpEbGS5kVQrSPcMmT64AqHHhr/AKBh/wDAt65pr2TzGzAMZ/vUfbj/AM+/619HBqx4k6UZSbaPRNVuI5PDlkysGZZEfAPZlZQf1rnLhfnPFc7bXd6bm1tWupjaiYMIjJuXPrx9a6S85lJ9a8/GfxEfVZM7UpLzKE3I5rLuT8+a1JelZV196sYo9SZEJMKF98mjXG3SsS7OPIABYYPU1DnDdeKoMztHNuYkEHHPbP8A9eu/Cq7Pm86bUEyirANjtVecBYWHrUxA+b2qCfO38K9VrW58rDsUF7CvRdPluRpdoyGNtsa4+Yg9PpXnS/1rsNPv7FNOgjl3eao4wCB+YrCsr2O+g9y5rU8j6XL51uUIkjw5YH+MVys7n7Sx9DXQ301vLo1yInkCgKQM5X7wPXFc9N/x8P7E/wA66cItGRiN0RzLzI/bbx+VZinitCViYiPas9en0NatWJg9D0PRkc6PatG0RZlwQTnH4Yq+GvE/5Z5458sjj+VZnh9A+k2zecykAkqy5HBPSrwi27Fju5DzwCuMn8815M9JM747IwrksGn3ghjO+QfWqkp3RAe9W7vImmV23MJm3H1NVsdQexzVfZPQ6Iqyj5PyrT8PJbtJN54zwMDdt5rMuOpx61e0NoVkl85VbK/KGOOaXQzrfAb5NjHKFEPzHoPMwSPoRQ8UDgcS55JAIqKQ2j3CgB95wAQQQPwp0cUQUeTcMrHjjBzSscR13hNIorK4WLdjfkhu3ArTmPWsrwkClndZkLkyZyR7CtSXqa+Uxa/fzO2PwIzZPvYqhc8Zq+/XJrPuDhiaKO4GMtnf7mIgRlb88Uf2def88B/31TftWxtxAOBnml/tRf8Anmf8/hX00HK25ySSuXofDF3Hf28xvYGjjkDbTuBwDnjj+tWp543mljSQM8R2uB27j9K0rvUTMrCO2QMT992Zm/Mn+lZBtbqeVjHGN7ddo6159SrKo+aR7uXctBNNleRvlJPFZlwcmte68O3l1EbeeMBHxlWJB/TmpR4Lv/IycrEigD5T0/HmhSilqztniobHK+YrTmEq3C53Y49OtWdVtY7W1gwy7poicADr8vsPX3rbTw/bocyTOxHRcDBrP8TQiG0sz5nyoSoXdnjHHFdVCqudKJ42YNVKTuccTUEr8Y/GnTygTKFRiGPJHQVDL1ODXtcyaPmI02pFdRn867HRfDL6npsUy3Q3Pn92IixABx2rjkVlHzEE+1eh+Gbhl8PrDIZw6sxCYwuCc56/07VyYmq4K8T0MLBSlZmdqnhiSx0+5kN0reXGzFNhB4Ga5yfInbPXqa9F1JXm8PX4SKL/AFEg3FhuPynoCf5CvNXcnDHv3rbL6zqJ8wsbSUbWCUny8/hWeOn41aeXOFyOucVWXlfxrtmzmprQ7XQvtP8AY0RjhDryM7+ep7VeGQoaeK5RhnDJg4GfbNJ4VDSaJCkalm3NgAZPWtd4pIn2yIyMOodcH9a8GrWam0etCinFM5OdVSWZQSQJD1+lVm9fWrWoDbqFzz/GP/QRVQ9K64axudLVkivL0P1q9opxM+EVgRghhmqMhzmrmjRyTSzLFJsYJySO2altJakVU3CyNwvbA+a0KqwPBRsZP41H5du+4rvQjrwGFNkjuAAhgVyON0Z5/WkgBUsJ2aJSPvEcCo5o2uji5ZJ7HYeDFC6fcjcTmTjP0FbUxrG8HoI7K5Al3gyZBxjsK2Juhr5fFr9/I7IfAihMOKy7joa05zxWZP3pUlZgZKSJaxfvMfMc89Kd9st/+eaf+O1PHdRMWV1Vh0+YcU7Nj/zyj/74r6SG2xySWp6RFodjCwZbcNj++xNX8RW0eQI4kA/3QKqDWrXkYfjrwP8AGs/U5YdQ2stwUK8bWU4/SvLeX4m/vRZusfh5fbRbuNes4shfMlb/AGBj+dc7d3pnc4VyCcgSSFsVN9gLMMXEI9fmI/pUyaQmN0l5AieoJaqWEqQ3i/uZqsXQ6TX3mJK0krZZuMYwAB/KqVzp0N0u2aIOOvNdjb2Gi7trXiyyDqocDH4dat+VpNqrPGkUrg/dLgnP4/Wq5asdov7hPEUZbyR5i3hXTydxt3/B2x/Opj4U037NvZYuvCZbd/n6mu5m1GXUkMKJCkQ45xgfieKz5oNPghbdqUDTDjy4zux9T2q+fEdUyU8P0sc/ZaVp9kMx6bbPIDkO6k4/x/Gr4ku7nMSyRxxkcqCsSY9xwD/OplulVSkbRHPcqCR+J6VWK5PWk1UbvJGqdNbMhvoLaKwuE81ppWjZQIl+XOPU/wCH415TLayxK0bBl2dQ/B6471615dQvbJIMMqsPTrXVhcS6F9LmVeiqttTx/aFffjLCpIoJ7h9sEDuT/dXNerDTYO0CAf7op5tVC/drolmV9omKwVt2YPhx9S03SRZs7xR7idiPjr64rUXJ5JyT15q0tqWYBVJY9AO9XX0O/igEr2r7PYjI+o7V586qlJyfU640+VJHA6tlNTnyeCwP/joqozKIm55NX/EsG+8m2bkVlADZzzgZrEgR4olSR9xUdTXp0mnTRcr3SHt0rW8N/wDH5Mf+mf8AUVh3LyLHmFdzZHbpXUeBzp51WT+05CkJhJyM8tkccfjUVtKbZLlrY1mGRxUTJx65rotUvtEkTZYaedwGBLvIx+Hf8aw+W7V58ZXVxNG54WQR21xtGMvk8ewrVn6HHeqGgxPFbyFlKhzlSRwR7VbuQxAKttORn3HevGra1mDVkU5vu1m3HetKbpis24+4aum9SbaHO+bYSSFd5Rs4PJPNTYg/5+n/AO/ZqVrWJuTGpY9wKi/su3/uH/vo/wCNe/CtGxg6cj0N41AXC9eQAelMKgKeB7c9ad5J65+XHPH+feoZFwconccGvqz4VCbgOPmxjOQKY7hl3E5AHJ68Z+vrSMN+CGAA4bg9alU4AOWJPXPOPbt9aixV0Rs2zcjIcA9c9KP7nDFsdd3X/wCvRsBUAMxA7s3J4/z19KkIU54LcZ4NCiVzaGDq9vqU8pKqXgP3VQ+nqKy10696C2lOO4Q12ZZwgAA55Cmo94Vvv8N3/n9On60+RDVVo42WJ4W2TKVb0IxUW7HPI+hrq7vT4r5PmyGPQ45P0qjPoZjQmHDk5xuP+HGalxibRrPuYwedQCryAeoJ609L25Vc+c5GehIqVdPu5m2CJuDycYArSh8Ors/0iY7uPlA6VEqVOW8TRYmpDaTKEGpXcsgiWJJWPYDB/nWjJM9qw+2WzxjPUHcD+IrEvIBaz+XHOsu3qV6D8arSyzPtDszDGBk5rlnl9CfS3odlPMq8PtXXmegWWu6ZBbbrSzHnAdd2efc9fwrO1DVLu/4lfbH2ReBXHLK0TBkJVgcAiti11JZSElAVz/F2P+FeRicqlS9+Gq/E9jCZpCr7s9GQ3mjW9225wVb1Q1kTeFwWPl3RA9GTJ/nXW7Dxx1pNneuONacdEz1OhxZ8KzluLlcf7n/16v2OgpZ/MHZ5COSTj9K6u1sZbyTy4EJPcjoK6O18MWkCbryTzH6bV4UfjUzxcrWbE4o4yz065vJPKhVWYjJ3MB/M1pW1s+j3HmahpjSj+EseAfY9DU+q2lhay7bK4ZyDyp5H51QaWaSNY3lkKL0VmJArLmckOyOhk1S31ObdCHUogBVgB/KqszcVU0hYz5r4O8DaD9f/ANVWJuc4rzKqSqtIGrlOQnLZ9eKoz/cNVda8S2Gj3cdvciVpHG4hFztGcZPI9KtuVcDHRsflW6pzjaTWjM007pdDPlieFyroUYdQwxUeH9BUxOW5owv+Sa9OOwWO0diEIVsk57VE7DCl1DKTlct+R5pzMMAkZ4OfwFRq/mANzy20AngH1r7ax+dJjXOWJb7y9AT2zTCAOfvE8Zxwf8/1qy0W1UPHIycce38gKY5CoxGTjgZ4pWHci+8nRWzxtGMU8BIlYBenY9CMd6cuJWk3quQc5A6j396QoWUtuIUdgcf/AK6VguNbaNpUD5h8qjt/n2oCEK2AQVY+5z7e9P8AMCSvheRxn355/SnrKqs4VQOMsNowe39KLjsR7d2flJwM89QKRiRgehyQvGaezAxCRhzuwMfkP6Vp2mkmSJWeXBAyFUf1/wDrVz18RCiryNIU3LYxioYeW4OCPvZ5/wAagu9IvbxMwvLtIyVwcH8a61bWK3AaGNUULtGBzinMX3EhzkYyCMg5ryamb2doxOmOHtq2edL4U1Vnw1uVHdyRgU+TwjfJuJc4B7xkAV6LvJCgs2SM5qpqEM0sLJDO0W3r71nHNal9Yo09l2Z5nd6atmWEtxCZBxsTOf8A61Z4zk8qPQA5rr7q2+d0l2vzycdaavhNLi3N4suyIdY+/wCBxXfQx8aj5dhODirnPW2oSwDG4NH/AHW5+ldRptvDqsKmC8hEx/5Yu2G/+v8ArVG48O28kJ8k7HT+9yD+NYLwtaz+TkbgQMjpjFGIwFOurrRnXhsyq0XZu6Oy/wBN0mTYHMZP905Bpt3q17dR+U8mEwOFGM1zEWrXCfNIxlBwMOc/rXcWvhm4lt0nkuIk8xA2FBb/AArw6+W1acujPo8Ni4Yhe7oznSueo6HoKjYYH/162tS0afTWTzJEcOCcqTn+XvWWY/lznjrjFcsouLszpvcq21xLb3IlDkxH76Y6+9aDXcDjKSD6HjFUSqltuOR3xUEscecFeB6CsZ0Y1HcSdkLf6XpupTxz3dssskX3W3Ee+DjqPY1DfXXkw7owCwIwM4qXyApwDjPoMUgtFLDDEc4PHXpVKnJWUndIm3Yq2yy3JRI03M5GAO5rU/sHVv8Anxk/76X/ABqa/wBDfT44pTKjhxkcYIqr5l3/AM/T/nW3ONI//9k="
-        }
-      ],
-      "discount": "",
-      "discountType": "amount",
-      "freight": "",
-      "taxMode": "product",
-      "tax": "",
-      "taxRate": 18,
-      "otherLabel": "",
-      "other": "",
-      "note": "",
-      "includeTerms": true,
-      "terms": "Payment terms: 100% advance before dispatch from Delhi.\nDelivery time depends on quantity.\nOur prices are quoted ex-factory.\nAny design charges will be borne by the buyer.\nHandmade products may vary from the actual.\nFreight charges will be extra.\nAll disputes are subject to Delhi jurisdiction.\nPAN card is required for e-way bill.\nGST charges will be extra as applicable.",
-      "isSample": false,
-      "status": "Saved",
-      "savedAt": "2026-11-04T05:41:45.549Z"
-    }
-  ],
+  "quotes": [],
   "deletedNumbers": [
     "QT-VERIFY-1",
-    "QT-2026-003"
+    "QT-2026-003",
+    "QT-2026-004"
   ],
   "catalog": [
     {
@@ -73,5 +32,5 @@
     }
   ],
   "sequence": 5,
-  "lastUpdated": "2026-11-04T05:41:46.682Z"
+  "lastUpdated": "2026-11-04T05:42:26.460Z"
 }
