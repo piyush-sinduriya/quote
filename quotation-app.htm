@@ -836,7 +836,7 @@
         </div>
       </nav>
       <div class="sidebar-bottom">
-        <div class="local-note"><span class="local-dot"></span><span>Your work is saved on this device</span></div>
+        <div class="local-note" id="cloud-status"><span class="local-dot" style="background:#18855b"></span><span>Cloud synced &bull; Saved on server</span></div>
       </div>
     </aside>
     <main class="app-main">
@@ -868,6 +868,114 @@
       var applicationStarted = false;
       var view = 'new';
       var currentMobileTab = 'editor';
+      var cloudApiUrl = (window.location.hostname === 'quote.schooldecor.in' || window.location.hostname.includes('vercel.app'))
+        ? '/api/quotes'
+        : 'https://quote.schooldecor.in/api/quotes';
+      var cloudSyncInProgress = false;
+
+      function setCloudStatus(status) {
+        var el = document.getElementById('cloud-status');
+        if (!el) return;
+        var dot = el.querySelector('.local-dot');
+        var text = el.querySelector('span:last-child');
+        if (status === 'syncing') {
+          if (dot) dot.style.background = '#f59e0b';
+          if (text) text.textContent = 'Syncing with server...';
+        } else if (status === 'online') {
+          if (dot) dot.style.background = '#18855b';
+          if (text) text.innerHTML = 'Cloud synced &bull; Saved on server';
+        } else {
+          if (dot) dot.style.background = '#8893a7';
+          if (text) text.textContent = 'Saved on this device (offline)';
+        }
+      }
+
+      function cloudSync(callback) {
+        if (cloudSyncInProgress) return;
+        cloudSyncInProgress = true;
+        setCloudStatus('syncing');
+        fetch(cloudApiUrl + '?_t=' + Date.now(), { method: 'GET', cache: 'no-store' })
+          .then(function (res) { return res.json(); })
+          .then(function (data) {
+            cloudSyncInProgress = false;
+            if (data && data.ok && Array.isArray(data.quotes)) {
+              var localQuotes = state.quotes || [];
+              var merged = localQuotes.slice();
+              data.quotes.forEach(function (remoteQuote) {
+                if (!remoteQuote || !remoteQuote.number) return;
+                var idx = merged.findIndex(function (lq) { return lq.number === remoteQuote.number; });
+                if (idx >= 0) {
+                  if (String(remoteQuote.savedAt || '') >= String(merged[idx].savedAt || '')) {
+                    merged[idx] = remoteQuote;
+                  }
+                } else {
+                  merged.push(remoteQuote);
+                }
+              });
+              merged.sort(function (a, b) { return String(b.savedAt || b.date || '').localeCompare(String(a.savedAt || a.date || '')); });
+              state.quotes = merged;
+              if (data.catalog && Array.isArray(data.catalog) && data.catalog.length > (state.catalog || []).length) {
+                state.catalog = data.catalog;
+              }
+              if (data.sequence && data.sequence > state.sequence) {
+                state.sequence = data.sequence;
+              }
+              persist();
+              updateDraftCount();
+              if (view === 'saved') renderApp();
+              setCloudStatus('online');
+            } else {
+              setCloudStatus('online');
+            }
+            if (typeof callback === 'function') callback();
+          })
+          .catch(function (err) {
+            cloudSyncInProgress = false;
+            console.warn('Cloud sync error:', err);
+            setCloudStatus('offline');
+            if (typeof callback === 'function') callback();
+          });
+      }
+
+      function cloudSaveQuote(quote) {
+        setCloudStatus('syncing');
+        fetch(cloudApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            quote: quote,
+            quotes: state.quotes,
+            catalog: state.catalog,
+            sequence: state.sequence
+          })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.ok) {
+            setCloudStatus('online');
+            showToast('Quotation saved to server database.');
+            if (Array.isArray(data.quotes)) {
+              state.quotes = data.quotes;
+              persist();
+              updateDraftCount();
+              if (view === 'saved') renderApp();
+            }
+          }
+        })
+        .catch(function (err) {
+          console.warn('Cloud save error:', err);
+          setCloudStatus('offline');
+        });
+      }
+
+      function cloudDeleteQuote(number) {
+        fetch(cloudApiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'delete', number: number })
+        }).catch(function () {});
+      }
+
       function setMobileTab(tab) {
         currentMobileTab = tab;
         var workbench = document.querySelector('.workbench');
@@ -2164,7 +2272,7 @@
           return '<div class="card quote-row"><div class="quote-row-main"><div class="quote-row-icon">&#128196;</div><div style="min-width:0"><div class="quote-row-title">' + escapeHtml(quote.number) + '<span class="status saved">Saved</span></div><div class="quote-row-sub">' + escapeHtml(name) + ' &bull; ' + escapeHtml(formattedDate(quote.date)) + '</div></div></div><div class="quote-row-total">' + money(sum.grand, quote.currency) + '</div><div class="quote-row-actions"><button class="button small" data-action="preview-quote" data-number="' + escapeHtml(quote.number) + '">Preview</button><button class="button small primary" data-action="print-quote" data-number="' + escapeHtml(quote.number) + '">Print</button><button class="button small" data-action="open-quote" data-number="' + escapeHtml(quote.number) + '">Edit</button><button class="button small" data-action="duplicate-quote" data-number="' + escapeHtml(quote.number) + '">Copy</button><button class="button small danger" data-action="delete-quote" data-number="' + escapeHtml(quote.number) + '">Delete</button></div></div>';
         }).join('');
         return '<div class="page-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h1>Saved quotations</h1><p class="subtitle">Preview, download, edit or copy a saved quotation.</p></div><button class="button primary" data-action="new-quote"><span>＋</span> New quotation</button></div>' +
-          '<div class="library-toolbar"><input id="quote-search" type="search" placeholder="Search by quote number or customer"><button class="button" data-action="export-data">Back up my data</button><button class="button" data-action="import-data">Restore backup</button></div>' +
+          '<div class="library-toolbar"><input id="quote-search" type="search" placeholder="Search by quote number or customer"><button class="button primary" data-action="refresh-cloud" style="background:#18855b;border-color:#18855b"><span>&#8635;</span> Refresh from server</button><button class="button" data-action="export-data">Back up my data</button><button class="button" data-action="import-data">Restore backup</button></div>' +
           (cards ? '<div class="quote-list" id="quote-list">' + cards + '</div>' : '<div class="empty-state"><div class="empty-icon">&#128196;</div><strong>No quotations saved yet</strong><p>Your saved quotes will appear here. Create your first one and it will be ready to edit or print later.</p><button class="button primary" data-action="new-quote">Create a quotation</button></div>');
       }
       function renderCatalog() {
@@ -2237,6 +2345,9 @@
         state.draft.savedAt = copy.savedAt;
         draftDirty = false;
         persist();
+        if (saveStatus !== 'Draft') {
+          cloudSaveQuote(copy);
+        }
         if (!quiet) showToast(saveStatus === 'Draft' ? 'Draft saved. You can continue it anytime.' : 'Quotation saved.');
       }
 
@@ -2634,6 +2745,14 @@
         var action = button.getAttribute('data-action');
         if (action === 'logout') { logOut(); return; }
         if (action === 'new-quote') newQuotation();
+        if (action === 'refresh-cloud') {
+          showToast('Syncing with server...');
+          cloudSync(function () {
+            renderApp();
+            showToast('Saved quotations up to date.');
+          });
+          return;
+        }
         if (action === 'preview-quote') showQuotePreview(button.getAttribute('data-number'), false);
         if (action === 'preview-draft') showQuotePreview(button.getAttribute('data-number'), true);
         if (action === 'print-quote') printSavedQuote(button.getAttribute('data-number'), false);
@@ -2763,6 +2882,7 @@
             }
             persist();
             renderApp();
+            cloudDeleteQuote(deleteNumber);
             showToast('Quotation deleted.');
           }
         }
@@ -2849,6 +2969,7 @@
           startFreshQuotationAfterRefresh();
           persist();
           renderApp();
+          cloudSync();
         });
       }
 
@@ -2889,6 +3010,14 @@
         } catch (error) {}
         beginApplication();
       });
+
+      
+      window.addEventListener('focus', function () {
+        if (applicationStarted) cloudSync();
+      });
+      setInterval(function () {
+        if (applicationStarted) cloudSync();
+      }, 30000);
 
       if (hasValidLogin()) beginApplication();
       else showLoginScreen();
