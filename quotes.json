@@ -1,4 +1,23 @@
 {
-  "quotes": [],
-  "lastUpdated": "2026-11-04T05:02:39.521Z"
+  "quotes": [
+    {
+      "number": "QT-TEST-100",
+      "date": "2026-11-04",
+      "customer": {
+        "name": "Demo School",
+        "company": "Demo School Pvt Ltd"
+      },
+      "items": [
+        {
+          "name": "School Bench",
+          "qty": "10",
+          "rate": "1500",
+          "gstRate": "18"
+        }
+      ],
+      "status": "Saved",
+      "savedAt": "2026-11-04T05:03:25.148Z"
+    }
+  ],
+  "lastUpdated": "2026-11-04T05:03:25.149Z"
 }
