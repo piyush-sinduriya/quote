@@ -1,23 +1,8 @@
 {
-  "quotes": [
-    {
-      "number": "QT-VERIFY-1",
-      "date": "2026-11-04",
-      "customer": {
-        "name": "Delete Test School"
-      },
-      "items": [
-        {
-          "name": "Test Desk",
-          "qty": 1,
-          "rate": 500
-        }
-      ],
-      "status": "Saved",
-      "savedAt": "2026-11-04T05:23:44.998Z"
-    }
+  "quotes": [],
+  "deletedNumbers": [
+    "QT-VERIFY-1"
   ],
-  "deletedNumbers": [],
   "catalog": [
     {
       "code": "51107",
@@ -45,5 +30,5 @@
     }
   ],
   "sequence": 4,
-  "lastUpdated": "2026-11-04T05:23:46.161Z"
+  "lastUpdated": "2026-11-04T05:23:47.672Z"
 }
