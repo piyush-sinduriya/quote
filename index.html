@@ -345,12 +345,20 @@
     .mobile-label { display: none !important; }
     .full-label { display: inline !important; }
 
-    @media (max-width: 900px) {
-      .fields, .fields.three, .charge-grid { grid-template-columns: minmax(0, 1fr); }
-      .field.full, .charges-divider { grid-column: auto; }
+    /* Tablets and medium screens (581px to 1024px) */
+    @media (min-width: 581px) and (max-width: 1024px) {
+      .fields { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .fields.three { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .charge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+      .field.full, .charges-divider { grid-column: 1 / -1 !important; }
       .page-wrap { padding-right: 18px; padding-left: 18px; }
       .page-heading { align-items: flex-start; }
-      .preview-wrap { padding: 12px; border-radius: 14px; }
+      .preview-wrap { padding: 14px; border-radius: 14px; }
+    }
+    /* Small mobile screens (<= 580px) single-column fields */
+    @media (max-width: 580px) {
+      .fields, .fields.three, .charge-grid { grid-template-columns: 1fr !important; }
+      .field.full, .charges-divider { grid-column: auto !important; }
     }
 
     @media (max-width: 768px) {
@@ -627,14 +635,26 @@
       .card-title { font-size: 15px !important; }
       .card-caption { font-size: 11.5px !important; }
       .step-number { width: 24px !important; height: 24px !important; font-size: 12px !important; }
-      .fields, .fields.three, .charge-grid { grid-template-columns: 1fr !important; gap: 12px !important; width: 100% !important; box-sizing: border-box !important; }
-      .field.full, .charges-divider { grid-column: auto !important; }
       .field label { font-size: 12px !important; margin-bottom: 5px !important; }
       input, select, textarea {
-        font-size: 15px !important;
+        font-size: 16px !important;
         padding: 10px 12px !important;
         border-radius: 8px !important;
         box-sizing: border-box !important;
+      }
+      .toast {
+        bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+        right: 12px !important;
+        left: 12px !important;
+        max-width: none !important;
+        font-size: 13px !important;
+        text-align: center !important;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18) !important;
+      }
+      .icon-button {
+        min-width: 32px !important;
+        min-height: 32px !important;
+        font-size: 18px !important;
       }
       .business-row {
         display: flex !important;
@@ -788,6 +808,58 @@
       .quote-modal .quote-preview-pages { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; }
       .quote-modal .quote-page { width: 760px !important; min-width: 760px !important; }
     }
+    /* Extra-small & standard mobile phones (<= 480px) */
+    @media (max-width: 480px) {
+      .topbar {
+        padding: 0 8px !important;
+        height: 50px !important;
+      }
+      .breadcrumbs {
+        font-size: 11px !important;
+        max-width: 38% !important;
+      }
+      .mobile-top-brand {
+        margin-right: 4px !important;
+      }
+      .mobile-top-logo {
+        width: 28px !important;
+        height: 19px !important;
+      }
+      .top-actions {
+        gap: 4px !important;
+      }
+      .top-actions .button {
+        padding: 5px 8px !important;
+        font-size: 11px !important;
+        min-height: 28px !important;
+        border-radius: 7px !important;
+      }
+      .top-actions .button span {
+        font-size: 11px !important;
+      }
+      .page-wrap {
+        padding: 10px 8px 24px !important;
+      }
+      .card, .form-card {
+        padding: 14px 10px !important;
+        border-radius: 12px !important;
+      }
+      .mobile-studio-tabs {
+        margin-bottom: 10px !important;
+        padding: 3px !important;
+      }
+      .mobile-tab-btn {
+        padding: 7px 3px !important;
+        font-size: 11.5px !important;
+      }
+      .quote-modal-toolbar {
+        padding: 8px !important;
+      }
+      .quote-modal-toolbar .button {
+        padding: 7px 10px !important;
+        font-size: 12px !important;
+      }
+    }
     @page { size: A4; margin: 0; }
     @media print {
       html, body { width: 100%; min-width: 0; min-height: 0; margin: 0 !important; background: #fff !important; }
@@ -881,8 +953,8 @@
         <div class="top-actions">
           <div class="save-hint"><span style="color:var(--green)">&#10003;</span> Auto-saved</div>
           <button class="button primary small" data-action="save-quote" style="background:#18855b;border-color:#18855b;font-weight:700"><span>&#128190;</span> Save</button>
-          <button class="button small" data-action="logout">Log out</button>
-          <button class="button primary small" data-action="new-quote"><span>＋</span> New quote</button>
+          <button class="button small" data-action="logout"><span class="full-label">Log out</span><span class="mobile-label">Logout</span></button>
+          <button class="button primary small" data-action="new-quote"><span>＋</span> <span class="full-label">New quote</span><span class="mobile-label">New</span></button>
         </div>
       </header>
       <div class="page-wrap" id="page-content"></div>
