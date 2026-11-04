@@ -49,24 +49,27 @@ async function getRemoteData() {
       return {
         sha: res.data.sha,
         quotes: Array.isArray(parsed.quotes) ? parsed.quotes : [],
+        deletedNumbers: Array.isArray(parsed.deletedNumbers) ? parsed.deletedNumbers : [],
         catalog: Array.isArray(parsed.catalog) ? parsed.catalog : [],
         sequence: parsed.sequence || 1,
         lastUpdated: parsed.lastUpdated || null
       };
     } catch (e) {
-      return { sha: res.data.sha, quotes: [], catalog: [], sequence: 1, lastUpdated: null };
+      return { sha: res.data.sha, quotes: [], deletedNumbers: [], catalog: [], sequence: 1, lastUpdated: null };
     }
   }
-  return { sha: null, quotes: [], catalog: [], sequence: 1, lastUpdated: null };
+  return { sha: null, quotes: [], deletedNumbers: [], catalog: [], sequence: 1, lastUpdated: null };
 }
 
-async function saveRemoteDataWithRetry(quotes, catalog, sequence, maxRetries = 3) {
+async function saveRemoteDataWithRetry(quotes, catalog, sequence, deletedNumbers, maxRetries = 3) {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     const remote = await getRemoteData();
+    const currentDeleted = Array.isArray(deletedNumbers) ? deletedNumbers : (remote.deletedNumbers || []);
     const payload = {
       quotes: quotes || [],
+      deletedNumbers: currentDeleted,
       catalog: catalog || remote.catalog || [],
-      sequence: sequence || remote.sequence || quotes.length + 1,
+      sequence: sequence || remote.sequence || (quotes.length + 1),
       lastUpdated: new Date().toISOString()
     };
     const body = JSON.stringify({
@@ -104,6 +107,7 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({
         ok: true,
         quotes: remote.quotes,
+        deletedNumbers: remote.deletedNumbers || [],
         catalog: remote.catalog,
         sequence: remote.sequence,
         lastUpdated: remote.lastUpdated
@@ -119,33 +123,28 @@ module.exports = async function handler(req, res) {
 
       const remote = await getRemoteData();
       let mergedQuotes = remote.quotes.slice();
+      let deletedNumbers = (remote.deletedNumbers || []).slice();
 
       if (bodyData.action === 'delete' && bodyData.number) {
-        mergedQuotes = mergedQuotes.filter(q => q.number !== bodyData.number);
+        const numToDelete = String(bodyData.number).trim();
+        mergedQuotes = mergedQuotes.filter(q => q && q.number !== numToDelete);
+        if (numToDelete && !deletedNumbers.includes(numToDelete)) {
+          deletedNumbers.push(numToDelete);
+        }
       } else if (bodyData.quote && bodyData.quote.number) {
         const incoming = bodyData.quote;
+        // User intentionally saving/creating this quote -> remove from deletedNumbers if previously deleted
+        deletedNumbers = deletedNumbers.filter(n => n !== incoming.number);
         const idx = mergedQuotes.findIndex(q => q.number === incoming.number);
         if (idx >= 0) {
           mergedQuotes[idx] = incoming;
         } else {
           mergedQuotes.unshift(incoming);
         }
-      } else if (Array.isArray(bodyData.quotes)) {
-        bodyData.quotes.forEach(incoming => {
-          if (!incoming || !incoming.number) return;
-          const idx = mergedQuotes.findIndex(q => q.number === incoming.number);
-          if (idx >= 0) {
-            const currentSavedAt = mergedQuotes[idx].savedAt || '';
-            const incomingSavedAt = incoming.savedAt || '';
-            if (incomingSavedAt >= currentSavedAt) {
-              mergedQuotes[idx] = incoming;
-            }
-          } else {
-            mergedQuotes.unshift(incoming);
-          }
-        });
       }
 
+      // Filter out any tombstoned quotes to guarantee deletion permanence
+      mergedQuotes = mergedQuotes.filter(q => q && q.number && !deletedNumbers.includes(q.number));
       mergedQuotes.sort((a, b) => String(b.savedAt || b.date || '').localeCompare(String(a.savedAt || a.date || '')));
 
       const mergedCatalog = (Array.isArray(bodyData.catalog) && bodyData.catalog.length)
@@ -154,11 +153,12 @@ module.exports = async function handler(req, res) {
 
       const mergedSequence = Math.max(remote.sequence || 1, bodyData.sequence || 1, mergedQuotes.length + 1);
 
-      const success = await saveRemoteDataWithRetry(mergedQuotes, mergedCatalog, mergedSequence);
+      const success = await saveRemoteDataWithRetry(mergedQuotes, mergedCatalog, mergedSequence, deletedNumbers);
       if (success) {
         return res.status(200).json({
           ok: true,
           quotes: mergedQuotes,
+          deletedNumbers: deletedNumbers,
           catalog: mergedCatalog,
           sequence: mergedSequence
         });
@@ -173,9 +173,11 @@ module.exports = async function handler(req, res) {
       if (!number) return res.status(400).json({ ok: false, error: 'Quote number required' });
 
       const remote = await getRemoteData();
-      const filtered = remote.quotes.filter(q => q.number !== number);
-      await saveRemoteDataWithRetry(filtered, remote.catalog, remote.sequence);
-      return res.status(200).json({ ok: true, quotes: filtered });
+      let deletedNumbers = (remote.deletedNumbers || []).slice();
+      if (!deletedNumbers.includes(number)) deletedNumbers.push(number);
+      const filtered = remote.quotes.filter(q => q && q.number !== number);
+      await saveRemoteDataWithRetry(filtered, remote.catalog, remote.sequence, deletedNumbers);
+      return res.status(200).json({ ok: true, quotes: filtered, deletedNumbers: deletedNumbers });
     }
 
     return res.status(405).json({ ok: false, error: 'Method not allowed' });

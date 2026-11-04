@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -899,21 +899,22 @@
           .then(function (data) {
             cloudSyncInProgress = false;
             if (data && data.ok && Array.isArray(data.quotes)) {
-              var localQuotes = state.quotes || [];
-              var merged = localQuotes.slice();
-              data.quotes.forEach(function (remoteQuote) {
-                if (!remoteQuote || !remoteQuote.number) return;
-                var idx = merged.findIndex(function (lq) { return lq.number === remoteQuote.number; });
-                if (idx >= 0) {
-                  if (String(remoteQuote.savedAt || '') >= String(merged[idx].savedAt || '')) {
-                    merged[idx] = remoteQuote;
-                  }
-                } else {
-                  merged.push(remoteQuote);
-                }
+              var deletedList = Array.isArray(data.deletedNumbers) ? data.deletedNumbers : [];
+              var serverQuotes = data.quotes.filter(function (remoteQuote) {
+                return remoteQuote && remoteQuote.number && deletedList.indexOf(remoteQuote.number) === -1;
               });
-              merged.sort(function (a, b) { return String(b.savedAt || b.date || '').localeCompare(String(a.savedAt || a.date || '')); });
-              state.quotes = merged;
+              serverQuotes.sort(function (a, b) {
+                return String(b.savedAt || b.date || '').localeCompare(String(a.savedAt || a.date || ''));
+              });
+              state.quotes = serverQuotes;
+
+              if (state.draft && state.draft.status === 'Saved' && deletedList.indexOf(state.draft.number) !== -1) {
+                state.draft = blankQuote(state.sequence, state.profile.defaultTerms);
+                state.draft.currency = state.profile.currency || 'INR';
+                state.sequence += 1;
+                draftDirty = false;
+              }
+
               if (data.catalog && Array.isArray(data.catalog) && data.catalog.length > (state.catalog || []).length) {
                 state.catalog = data.catalog;
               }
@@ -944,7 +945,6 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             quote: quote,
-            quotes: state.quotes,
             catalog: state.catalog,
             sequence: state.sequence
           })
@@ -955,7 +955,10 @@
             setCloudStatus('online');
             showToast('Quotation saved to server database.');
             if (Array.isArray(data.quotes)) {
-              state.quotes = data.quotes;
+              var deletedList = Array.isArray(data.deletedNumbers) ? data.deletedNumbers : [];
+              state.quotes = data.quotes.filter(function (q) {
+                return q && q.number && deletedList.indexOf(q.number) === -1;
+              });
               persist();
               updateDraftCount();
               if (view === 'saved') renderApp();
@@ -968,12 +971,32 @@
         });
       }
 
-      function cloudDeleteQuote(number) {
+      function cloudDeleteQuote(number, callback) {
+        setCloudStatus('syncing');
         fetch(cloudApiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'delete', number: number })
-        }).catch(function () {});
+        })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          setCloudStatus('online');
+          if (data && data.ok && Array.isArray(data.quotes)) {
+            var deletedList = Array.isArray(data.deletedNumbers) ? data.deletedNumbers : [];
+            state.quotes = data.quotes.filter(function (q) {
+              return q && q.number && deletedList.indexOf(q.number) === -1;
+            });
+            persist();
+            updateDraftCount();
+            if (view === 'saved') renderApp();
+          }
+          if (typeof callback === 'function') callback(true);
+        })
+        .catch(function (err) {
+          console.warn('Cloud delete error:', err);
+          setCloudStatus('offline');
+          if (typeof callback === 'function') callback(false);
+        });
       }
 
       function setMobileTab(tab) {
@@ -2872,7 +2895,7 @@
         }
         if (action === 'delete-quote') {
           var deleteNumber = button.getAttribute('data-number');
-          if (window.confirm('Delete quotation ' + deleteNumber + '?')) {
+          if (window.confirm('Delete quotation ' + deleteNumber + ' permanently from server?')) {
             state.quotes = state.quotes.filter(function (quote) { return quote.number !== deleteNumber; });
             if (state.draft.number === deleteNumber && state.draft.status === 'Saved') {
               state.draft = blankQuote(state.sequence, state.profile.defaultTerms);
@@ -2882,8 +2905,14 @@
             }
             persist();
             renderApp();
-            cloudDeleteQuote(deleteNumber);
-            showToast('Quotation deleted.');
+            showToast('Deleting quotation ' + deleteNumber + ' from server...');
+            cloudDeleteQuote(deleteNumber, function (success) {
+              if (success) {
+                showToast('Quotation ' + deleteNumber + ' permanently deleted from server.');
+              } else {
+                showToast('Quotation deleted locally (server offline).');
+              }
+            });
           }
         }
         if (action === 'export-data') downloadBackup();
