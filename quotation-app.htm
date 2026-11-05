@@ -1950,19 +1950,19 @@
         var extraRows = '';
         if (items.length) {
           if (sum.totalItemDiscount > 0) {
-            extraRows += '<tr class="quote-summary-row"><td colspan="8">Gross items total</td><td class="align-right">' + money(sum.grossTotal, quote.currency) + '</td></tr>';
-            extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="8">Product discounts</td><td class="align-right">- ' + money(sum.totalItemDiscount, quote.currency) + '</td></tr>';
+            extraRows += '<tr class="quote-summary-row"><td colspan="9">Gross items total</td><td class="align-right">' + money(sum.grossTotal, quote.currency) + '</td></tr>';
+            extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="9">Product discounts</td><td class="align-right">- ' + money(sum.totalItemDiscount, quote.currency) + '</td></tr>';
           }
-          extraRows += '<tr class="quote-summary-row"><td colspan="8">Items subtotal (before GST)</td><td class="align-right">' + money(sum.itemTotal, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row"><td colspan="9">Items subtotal (before GST)</td><td class="align-right">' + money(sum.itemTotal, quote.currency) + '</td></tr>';
         }
         if (sum.discount) {
           var discLabel = sum.discountType === 'percent' ? 'Special discount (' + sum.discountVal + '%)' : 'Special discount';
-          extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="8">' + escapeHtml(discLabel) + '</td><td class="align-right">- ' + money(sum.discount, quote.currency) + '</td></tr>';
-          extraRows += '<tr class="quote-summary-row"><td colspan="8">Subtotal after discount</td><td class="align-right">' + money(sum.discountedSubtotal, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="9">' + escapeHtml(discLabel) + '</td><td class="align-right">- ' + money(sum.discount, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row"><td colspan="9">Subtotal after discount</td><td class="align-right">' + money(sum.discountedSubtotal, quote.currency) + '</td></tr>';
         }
-        if (sum.tax) extraRows += '<tr class="quote-summary-row"><td colspan="8">' + (productGst || quote.taxMode === 'product' ? 'Product-wise GST' : quote.taxMode === 'percent' ? 'GST (' + number(quote.taxRate) + '%)' : 'Tax') + '</td><td class="align-right">' + money(sum.tax, quote.currency) + '</td></tr>';
-        if (sum.freight) extraRows += '<tr class="quote-summary-row"><td colspan="8">Freight</td><td class="align-right">' + money(sum.freight, quote.currency) + '</td></tr>';
-        if (sum.other) extraRows += '<tr class="quote-summary-row"><td colspan="8">' + escapeHtml(quote.otherLabel || 'Other charges') + '</td><td class="align-right">' + money(sum.other, quote.currency) + '</td></tr>';
+        if (sum.tax) extraRows += '<tr class="quote-summary-row"><td colspan="9">' + (productGst || quote.taxMode === 'product' ? 'Product-wise GST' : quote.taxMode === 'percent' ? 'GST (' + number(quote.taxRate) + '%)' : 'Tax') + '</td><td class="align-right">' + money(sum.tax, quote.currency) + '</td></tr>';
+        if (sum.freight) extraRows += '<tr class="quote-summary-row"><td colspan="9">Freight</td><td class="align-right">' + money(sum.freight, quote.currency) + '</td></tr>';
+        if (sum.other) extraRows += '<tr class="quote-summary-row"><td colspan="9">' + escapeHtml(quote.otherLabel || 'Other charges') + '</td><td class="align-right">' + money(sum.other, quote.currency) + '</td></tr>';
         var pages = [];
         for (var pageIndex = 0; pageIndex < pageCount; pageIndex += 1) {
           var pageItems = itemPages[pageIndex];
@@ -1971,17 +1971,17 @@
             var image = item.image ? '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.name || 'Item') + '">' : '—';
             var c = itemCalculations(item, quote);
             var gstLabel = item.gstRate !== '' && item.gstRate != null ? number(item.gstRate) + '%' : '—';
-            var discSnippet = '';
+            var discCellHtml = '<span style="color:#94a3b8">—</span>';
             if (c.discVal > 0) {
-              discSnippet = c.discType === 'percent'
-                ? '<small style="color:var(--green);font-weight:700;display:block">Disc: -' + c.discVal + '% (-' + money(c.discAmount, quote.currency) + ')</small>'
-                : '<small style="color:var(--green);font-weight:700;display:block">Disc: -' + money(c.discAmount, quote.currency) + '</small>';
+              discCellHtml = c.discType === 'percent'
+                ? '<strong>' + c.discVal + '%</strong>' + (c.discAmount > 0 ? '<small style="color:var(--green);font-weight:700;display:block">- ' + money(c.discAmount, quote.currency) + '</small>' : '')
+                : '<strong>' + money(c.discAmount, quote.currency) + '</strong><small style="color:var(--green);font-weight:700;display:block">Flat</small>';
             }
-            return '<tr class="quote-item-row"><td class="align-center">' + serial + '</td><td class="align-center">' + escapeHtml(item.code || '—') + '</td><td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td><td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td><td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td><td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong>' + discSnippet + '<small style="display:block">GST ' + gstLabel + '</small></td><td class="align-center">' + escapeHtml(item.qty || '0') + '</td><td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : '—') + '</td><td class="align-right">' + money(c.lineTotal, quote.currency) + '</td></tr>';
+            return '<tr class="quote-item-row"><td class="align-center">' + serial + '</td><td class="align-center">' + escapeHtml(item.code || '—') + '</td><td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td><td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td><td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td><td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong><small style="display:block">GST ' + gstLabel + '</small></td><td class="align-center">' + discCellHtml + '</td><td class="align-center">' + escapeHtml(item.qty || '0') + '</td><td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : '—') + '</td><td class="align-right">' + money(c.lineTotal, quote.currency) + '</td></tr>';
           }).join('');
           var finalPageRows = '';
           if (pageIndex === pageCount - 1) {
-            finalPageRows = extraRows + (items.length || sum.grand ? '<tr class="quote-grand-row"><td colspan="6">Total</td><td class="align-center">' + totalQuantity + '</td><td></td><td class="align-right">' + money(sum.grand, quote.currency) + '</td></tr>' : '');
+            finalPageRows = extraRows + (items.length || sum.grand ? '<tr class="quote-grand-row"><td colspan="7">Total</td><td class="align-center">' + totalQuantity + '</td><td></td><td class="align-right">' + money(sum.grand, quote.currency) + '</td></tr>' : '');
           }
           var termsHtml = pageIndex === pageCount - 1
             ? (quote.includeTerms !== false ? '<div class="quote-terms"><h3>TERMS &amp; CONDITIONS:-</h3>' + (termLines.length ? '<ol>' + termLines.map(function (line) { return '<li>' + escapeHtml(line) + '</li>'; }).join('') + '</ol>' : '<div>No terms added</div>') + '</div>' : '') + (quote.note ? '<p class="quote-note">' + escapeHtml(quote.note) + '</p>' : '')
@@ -1992,8 +1992,8 @@
             '<div class="quote-meta-row"><span class="quote-meta-label">Quote No:</span><strong>' + escapeHtml(quote.number || '—') + '</strong></div>' +
             '<div class="quote-meta-row"><span class="quote-meta-label">Date:</span><strong>' + escapeHtml(dateLabel) + (validLabel ? ' &nbsp; | &nbsp; Valid until: ' + escapeHtml(validLabel) : '') + '</strong></div>' +
             '<div class="quote-meta-row"><span class="quote-meta-label">Customer:</span><strong>' + escapeHtml(customerName) + (customerMeta ? '<br>' + escapeHtml(customerMeta) : '') + '</strong></div></div>' +
-            '<table class="quote-items"><colgroup><col style="width:5%"><col style="width:6%"><col style="width:12%"><col style="width:14%"><col style="width:24%"><col style="width:15%"><col style="width:7%"><col style="width:8%"><col style="width:9%"></colgroup>' +
-            '<thead><tr><th>S.NO.</th><th>CODE</th><th>ITEM NAME</th><th>SPECIFICATIONS</th><th>PHOTO</th><th>RATE / GST</th><th>QTY.</th><th>GST AMT</th><th>TOTAL</th></tr></thead><tbody>' + rows + finalPageRows + '</tbody></table>' + termsHtml + '</article>'
+            '<table class="quote-items"><colgroup><col style="width:4%"><col style="width:6%"><col style="width:12%"><col style="width:13%"><col style="width:22%"><col style="width:12%"><col style="width:9%"><col style="width:6%"><col style="width:7%"><col style="width:9%"></colgroup>' +
+            '<thead><tr><th>S.NO.</th><th>CODE</th><th>ITEM NAME</th><th>SPECIFICATIONS</th><th>PHOTO</th><th>RATE / GST</th><th>DISCOUNT</th><th>QTY.</th><th>GST AMT</th><th>TOTAL</th></tr></thead><tbody>' + rows + finalPageRows + '</tbody></table>' + termsHtml + '</article>'
           );
         }
         target.innerHTML = pages.join('');
