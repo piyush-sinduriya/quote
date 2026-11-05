@@ -147,10 +147,10 @@
     .item-table .discount-cell { width: 92px; }
     .item-table .gst-cell { width: 62px; }
     .item-table .amount-cell { width: 80px; padding: 12px 4px 0; color: #3e4d67; font-size: 11px; font-weight: 700; white-space: nowrap; }
-    .row-discount-wrap { display: flex; align-items: center; gap: 3px; }
-    .row-discount-wrap input { min-width: 44px; flex: 1; padding: 8px 5px !important; }
+    .row-discount-wrap { display: flex; align-items: center; gap: 4px; }
+    .row-discount-wrap input { min-width: 44px; flex: 1; padding: 8px 8px !important; font-size: 11px !important; }
     .row-discount-wrap select {
-      padding: 7px 2px; font-size: 11px; font-weight: 750; width: 36px;
+      padding: 7px 4px; font-size: 11px; font-weight: 750; width: 38px;
       border: 1px solid var(--line); border-radius: 6px; background: #f8faff; color: #3e4d67;
       cursor: pointer;
     }
@@ -1977,7 +1977,7 @@
                 ? '<strong>' + c.discVal + '%</strong>' + (c.discAmount > 0 ? '<small style="color:var(--green);font-weight:700;display:block">- ' + money(c.discAmount, quote.currency) + '</small>' : '')
                 : '<strong>' + money(c.discAmount, quote.currency) + '</strong><small style="color:var(--green);font-weight:700;display:block">Flat</small>';
             }
-            return '<tr class="quote-item-row"><td class="align-center">' + serial + '</td><td class="align-center">' + escapeHtml(item.code || '—') + '</td><td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td><td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td><td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td><td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong><small style="display:block">GST ' + gstLabel + '</small></td><td class="align-center">' + discCellHtml + '</td><td class="align-center">' + escapeHtml(item.qty || '0') + '</td><td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : '—') + '</td><td class="align-right">' + money(c.lineTotal, quote.currency) + '</td></tr>';
+            return '<tr class="quote-item-row"><td class="align-center">' + serial + '</td><td class="align-center">' + escapeHtml(item.code || '—') + '</td><td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td><td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td><td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td><td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong><small style="display:block">GST ' + gstLabel + '</small></td><td class="align-right">' + discCellHtml + '</td><td class="align-center">' + escapeHtml(item.qty || '0') + '</td><td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : '—') + '</td><td class="align-right">' + money(c.lineTotal, quote.currency) + '</td></tr>';
           }).join('');
           var finalPageRows = '';
           if (pageIndex === pageCount - 1) {
