@@ -235,6 +235,27 @@
     .quote-items .align-right { text-align: right; }
     .quote-items .align-center { text-align: center; }
     .quote-items .align-middle { vertical-align: middle; }
+    .quote-items th.align-right, .quote-items td.align-right { text-align: right; }
+    .quote-items th.align-center, .quote-items td.align-center { text-align: center; }
+    .quote-items th.align-left, .quote-items td.align-left { text-align: left; }
+    .quote-items th.align-middle, .quote-items td.align-middle { vertical-align: middle; }
+
+    /* Column Customizer Toolbar */
+    .column-visibility-bar { margin: 12px 0 14px; padding: 10px 13px; background: #f8fafc; border: 1px solid #dbe4f0; border-radius: 10px; }
+    .column-visibility-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+    .column-visibility-title { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #1e293b; font-weight: 750; }
+    .column-visibility-sub { color: #64748b; font-size: 11px; font-weight: 400; margin-left: 2px; }
+    .column-visibility-actions { display: flex; align-items: center; gap: 12px; }
+    .auto-hide-toggle { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #334155; font-weight: 600; cursor: pointer; user-select: none; }
+    .auto-hide-toggle input { cursor: pointer; accent-color: var(--blue); }
+    .column-pills-row { display: flex; flex-wrap: wrap; gap: 5px; }
+    .col-pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; font-size: 11px; font-weight: 650; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer; transition: all .15s ease; user-select: none; }
+    .col-pill:hover { border-color: #94a3b8; background: #f1f5f9; }
+    .col-pill.active { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+    .col-pill.auto-hidden { background: #f8fafc; border-color: #cbd5e1; color: #64748b; border-style: dashed; }
+    .col-pill.auto-hidden:hover { border-color: #94a3b8; color: #1e293b; }
+    .col-pill-check { font-size: 10px; font-weight: 700; }
+    .col-pill-status { font-size: 9.5px; font-weight: 500; opacity: .85; }
     .quote-item-image-box { width: 100%; max-width: 180px; height: 122px; display: grid; place-items: center; margin: 0 auto; overflow: hidden; border: 1px solid #d3d7dc; border-radius: 2px; background: #fff; color: #9aa0a8; font-size: 9px; }
     .quote-item-image-box img { display: block; width: 100%; height: 100%; object-fit: contain; }
     .quote-items .quote-summary-row td { padding: 3px 4px; font-size: 8px; line-height: 1.1; }
@@ -902,6 +923,10 @@
       /* Never let an item photo exceed its A4 table column. */
       .quote-item-image-box { width: 100%; max-width: none; height: 29mm; font-size: 8pt; }
       .quote-item-image-box img { width: 100%; height: 100%; object-fit: contain; }
+      .quote-items th.align-right, .quote-items td.align-right { text-align: right !important; }
+      .quote-items th.align-center, .quote-items td.align-center { text-align: center !important; }
+      .quote-items th.align-left, .quote-items td.align-left { text-align: left !important; }
+      .column-visibility-bar { display: none !important; }
       .quote-items .quote-summary-row td { padding: .7mm 1.2mm; font-size: 7.6pt; }
       .quote-items .quote-grand-row td { padding: 1mm; font-size: 8.4pt; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
       .quote-terms { margin-top: 1.4mm; }
@@ -1159,6 +1184,174 @@
         beatManager: 'data:image/jpeg;base64,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'
       };
       var currencyOptions = { INR: '₹', USD: '$', EUR: '€', GBP: '£' };
+
+      var defaultQuoteColumns = {
+        serial: true,
+        code: true,
+        name: true,
+        spec: true,
+        photo: true,
+        rate: true,
+        discount: true,
+        qty: true,
+        gst: true,
+        total: true
+      };
+
+      var COLUMN_CONFIG = [
+        { key: 'serial', label: 'S.NO.', title: 'S.No.', weight: 4, align: 'center', canHide: true },
+        { key: 'code', label: 'CODE', title: 'Code', weight: 6.5, align: 'center', canHide: true },
+        { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 17, align: 'left', canHide: false },
+        { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 15, align: 'left', canHide: true },
+        { key: 'photo', label: 'PHOTO', title: 'Photo', weight: 20, align: 'middle', canHide: true },
+        { key: 'rate', label: 'RATE', title: 'Rate', weight: 11, align: 'right', canHide: true },
+        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 9, align: 'right', canHide: true },
+        { key: 'qty', label: 'QTY.', title: 'Quantity', weight: 6, align: 'center', canHide: true },
+        { key: 'gst', label: 'GST AMT', title: 'GST', weight: 8, align: 'right', canHide: true },
+        { key: 'total', label: 'TOTAL', title: 'Total', weight: 9.5, align: 'right', canHide: false }
+      ];
+
+      function getVisibleColumns(quote) {
+        var baseCols = Object.assign({}, defaultQuoteColumns, quote && quote.columns ? quote.columns : (typeof state !== 'undefined' && state && state.profile && state.profile.columns ? state.profile.columns : {}));
+        var autoHide = !quote || quote.autoHideEmptyColumns !== false;
+        var hasItemDiscount = (quote && quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && number(item.discount) > 0;
+        });
+        var hasItemGst = (quote && quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && item.gstRate !== '' && item.gstRate != null && number(item.gstRate) > 0;
+        });
+        var quoteHasTax = (quote && usesProductGst(quote) && hasItemGst) || (quote && quote.taxMode === 'percent' && number(quote.taxRate) > 0) || (quote && quote.taxMode === 'amount' && number(quote.tax) > 0);
+
+        var result = {};
+        COLUMN_CONFIG.forEach(function (def) {
+          var isChecked = baseCols[def.key] !== false;
+          if (def.key === 'discount') {
+            result[def.key] = isChecked && (!autoHide || hasItemDiscount);
+          } else if (def.key === 'gst') {
+            result[def.key] = isChecked && (!autoHide || quoteHasTax);
+          } else {
+            result[def.key] = isChecked;
+          }
+        });
+        return result;
+      }
+
+      function renderColumnBar(quote) {
+        var cols = Object.assign({}, defaultQuoteColumns, quote.columns || {});
+        var autoHide = quote.autoHideEmptyColumns !== false;
+        var hasItemDiscount = (quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && number(item.discount) > 0;
+        });
+        var hasItemGst = (quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && item.gstRate !== '' && item.gstRate != null && number(item.gstRate) > 0;
+        });
+        var quoteHasTax = (usesProductGst(quote) && hasItemGst) || (quote.taxMode === 'percent' && number(quote.taxRate) > 0) || (quote.taxMode === 'amount' && number(quote.tax) > 0);
+
+        var pillsHtml = COLUMN_CONFIG.map(function (def) {
+          var isChecked = cols[def.key] !== false;
+          var statusText = '';
+          var isAutoHidden = false;
+          if (def.key === 'discount') {
+            if (isChecked && autoHide && !hasItemDiscount) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0)';
+            } else if (isChecked && hasItemDiscount) {
+              statusText = ' (Active)';
+            }
+          } else if (def.key === 'gst') {
+            if (isChecked && autoHide && !quoteHasTax) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0%)';
+            } else if (isChecked && quoteHasTax) {
+              statusText = ' (Active)';
+            }
+          }
+
+          var icon = isChecked ? (isAutoHidden ? '&#128065;' : '&#10003;') : '&#10005;';
+          var classNames = 'col-pill' + (isChecked ? ' active' : '') + (isAutoHidden ? ' auto-hidden' : '');
+          var tooltip = isAutoHidden
+            ? (def.title + ' column is auto-hidden in preview & print because value is 0. Enter value to show automatically.')
+            : (isChecked ? ('Click to hide ' + def.title + ' column in quotation') : ('Click to show ' + def.title + ' column in quotation'));
+
+          return '<button type="button" class="' + classNames + '" data-col-toggle="' + def.key + '" title="' + escapeHtml(tooltip) + '">' +
+            '<span class="col-pill-check">' + icon + '</span> ' +
+            '<span class="col-pill-name">' + def.title + '</span>' +
+            (statusText ? '<span class="col-pill-status">' + statusText + '</span>' : '') +
+            '</button>';
+        }).join('');
+
+        return '<div class="column-visibility-bar" id="columns-customizer-bar">' +
+          '<div class="column-visibility-header">' +
+            '<div class="column-visibility-title">' +
+              '<span style="font-size:13px">&#9881;</span> ' +
+              '<strong>Print &amp; Preview Columns:</strong>' +
+              '<span class="column-visibility-sub">Hide or unhide any column in live preview &amp; print</span>' +
+            '</div>' +
+            '<div class="column-visibility-actions">' +
+              '<label class="auto-hide-toggle" title="Automatically hide Discount and GST columns when not applied (0)">' +
+                '<input type="checkbox" data-action="toggle-auto-hide"' + (autoHide ? ' checked' : '') + '> ' +
+                '<span>Auto-hide Discount &amp; GST if 0</span>' +
+              '</label>' +
+              '<button type="button" class="text-button" data-action="reset-columns" style="font-size:11px;color:var(--blue)">Reset columns</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="column-pills-row" id="column-pills-container">' + pillsHtml + '</div>' +
+        '</div>';
+      }
+
+      function updateColumnPillsUI(quote) {
+        var container = document.getElementById('column-pills-container');
+        if (!container) return;
+        var cols = Object.assign({}, defaultQuoteColumns, quote.columns || {});
+        var autoHide = quote.autoHideEmptyColumns !== false;
+        var hasItemDiscount = (quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && number(item.discount) > 0;
+        });
+        var hasItemGst = (quote.items || []).some(function (item) {
+          var isNotEmpty = String(item.code || '').trim() || String(item.name || '').trim() || number(item.rate) > 0;
+          return isNotEmpty && item.gstRate !== '' && item.gstRate != null && number(item.gstRate) > 0;
+        });
+        var quoteHasTax = (usesProductGst(quote) && hasItemGst) || (quote.taxMode === 'percent' && number(quote.taxRate) > 0) || (quote.taxMode === 'amount' && number(quote.tax) > 0);
+
+        container.innerHTML = COLUMN_CONFIG.map(function (def) {
+          var isChecked = cols[def.key] !== false;
+          var statusText = '';
+          var isAutoHidden = false;
+          if (def.key === 'discount') {
+            if (isChecked && autoHide && !hasItemDiscount) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0)';
+            } else if (isChecked && hasItemDiscount) {
+              statusText = ' (Active)';
+            }
+          } else if (def.key === 'gst') {
+            if (isChecked && autoHide && !quoteHasTax) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0%)';
+            } else if (isChecked && quoteHasTax) {
+              statusText = ' (Active)';
+            }
+          }
+
+          var icon = isChecked ? (isAutoHidden ? '&#128065;' : '&#10003;') : '&#10005;';
+          var classNames = 'col-pill' + (isChecked ? ' active' : '') + (isAutoHidden ? ' auto-hidden' : '');
+          var tooltip = isAutoHidden
+            ? (def.title + ' column is auto-hidden in preview & print because value is 0. Enter value to show automatically.')
+            : (isChecked ? ('Click to hide ' + def.title + ' column in quotation') : ('Click to show ' + def.title + ' column in quotation'));
+
+          return '<button type="button" class="' + classNames + '" data-col-toggle="' + def.key + '" title="' + escapeHtml(tooltip) + '">' +
+            '<span class="col-pill-check">' + icon + '</span> ' +
+            '<span class="col-pill-name">' + def.title + '</span>' +
+            (statusText ? '<span class="col-pill-status">' + statusText + '</span>' : '') +
+            '</button>';
+        }).join('');
+      }
+
       var state = loadState();
       if (isDraftQuote(state.draft, state.quotes)) state.draft.status = 'Draft';
 
@@ -1183,6 +1376,8 @@
           currency: 'INR',
           customer: { name: '', company: '', address: '', phone: '', email: '', gstin: '' },
           items: [blankItem()],
+          columns: Object.assign({}, defaultQuoteColumns, typeof state !== 'undefined' && state && state.profile && state.profile.columns ? state.profile.columns : {}),
+          autoHideEmptyColumns: true,
           discount: '',
           discountType: 'amount',
           freight: '',
@@ -1464,6 +1659,9 @@
         if (!saved.draft.taxMode) saved.draft.taxMode = 'product';
         if (saved.draft.discount == null) saved.draft.discount = '';
         if (!saved.draft.discountType) saved.draft.discountType = 'amount';
+        if (!saved.draft.columns) saved.draft.columns = Object.assign({}, defaultQuoteColumns, saved.profile.columns || {});
+        else saved.draft.columns = Object.assign({}, defaultQuoteColumns, saved.draft.columns);
+        if (saved.draft.autoHideEmptyColumns == null) saved.draft.autoHideEmptyColumns = true;
         saved.draft.items.forEach(function (item) {
           if (item.gstRate == null) item.gstRate = '';
           if (item.discount == null) item.discount = '';
@@ -1473,6 +1671,9 @@
           if (!quote.customer) quote.customer = { name: '', company: '', address: '', phone: '', email: '', gstin: '' };
           if (!Array.isArray(quote.items)) quote.items = [blankItem()];
           if (!quote.taxMode) quote.taxMode = 'product';
+          if (!quote.columns) quote.columns = Object.assign({}, defaultQuoteColumns, saved.profile.columns || {});
+          else quote.columns = Object.assign({}, defaultQuoteColumns, quote.columns);
+          if (quote.autoHideEmptyColumns == null) quote.autoHideEmptyColumns = true;
           quote.items.forEach(function (item) {
             if (item.gstRate == null) item.gstRate = '';
             if (item.discount == null) item.discount = '';
@@ -1839,6 +2040,7 @@
         var profile = state.profile;
         if (usesProductGst(quote)) quote.taxMode = 'product';
         var isSaved = (quote.status === 'Saved' && !draftDirty);
+        var activeColsCount = COLUMN_CONFIG.filter(function (col) { return getVisibleColumns(quote)[col.key]; }).length;
         var items = (quote.items || []).map(function (item, index) {
           var c = itemCalculations(item, quote);
           var currSymbol = currencyOptions[quote.currency] || '&#8377;';
@@ -1888,6 +2090,7 @@
                   '<div class="field"><label>Currency</label><select data-bind="currency">' + Object.keys(currencyOptions).map(function (code) { return '<option value="' + code + '"' + (quote.currency === code ? ' selected' : '') + '>' + code + ' ' + currencyOptions[code] + '</option>'; }).join('') + '</select></div>' +
                 '</div></div>' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">4</span><div><h2 class="card-title">Items and services</h2><p class="card-caption">Click code or product name to browse all products. Price and GST fill from the catalog; enter quantity.</p></div></div><button class="text-button" data-view="catalog">Manage product catalog →</button></div>' +
+                renderColumnBar(quote) +
                 '<div class="mobile-table-tip">👉 Swipe table sideways to see all columns</div><div class="item-table-wrap"><table class="item-table"><thead><tr><th>Code</th><th>Photo</th><th>Item / service</th><th>Specifications</th><th>Qty</th><th>Rate</th><th>Discount</th><th>GST %</th><th>Amount</th><th></th></tr></thead><tbody>' + items + '</tbody></table></div>' +
                 '<div class="item-actions"><button class="button soft small" data-action="add-item">＋ Add item</button><span class="item-tip">Saved product GST is added to the rate shown.</span></div></div>' +
               '<div class="card form-card"><div class="card-title-row"><div class="section-label"><span class="step-number">5</span><div><h2 class="card-title">Discount, freight and tax</h2><p class="card-caption">Add discount, freight or extra charges if applicable</p></div></div></div>' +
@@ -1909,7 +2112,7 @@
                 '<div class="fields"><div class="field full"><label class="terms-toggle"><input type="checkbox" data-bind="includeTerms"' + (quote.includeTerms !== false ? ' checked' : '') + '><span>Include terms and conditions in this quotation</span></label></div><div class="field full"><label>Terms and conditions</label><textarea data-bind="terms" placeholder="Payment, delivery, validity…">' + escapeHtml(quote.terms) + '</textarea></div><div class="field full"><label>Note for customer (optional)</label><textarea data-bind="note" placeholder="A short thank-you or any extra information" style="min-height:60px">' + escapeHtml(quote.note) + '</textarea></div></div></div>' +
               '<div class="bottom-actions"><button class="button primary" data-action="save-quote" style="background:' + (isSaved ? '#15803d' : '#18855b') + ';border-color:' + (isSaved ? '#15803d' : '#18855b') + ';font-weight:750">' + (isSaved ? '<span>&#10003;</span> Saved' : '<span>&#128190;</span> Save quotation') + '</button><button class="button" data-action="save-and-print"><span>&#9113;</span> Save &amp; print</button><div class="action-group"><button class="button" data-action="print">&#9113; Print preview</button><button class="button soft mobile-only-btn" data-action="switch-to-preview">&#128196; View preview</button><button class="button" data-view="saved">&#9638; View saved (<span class="saved-count-inline">0</span>)</button></div></div>' +
             '</section>' +
-            '<section class="preview-wrap" aria-label="Quotation preview"><div class="preview-heading"><div><strong>Live preview</strong> <span class="preview-mobile-hint">👉 Swipe horizontally to view full A4 sheet</span></div><div><button type="button" class="button soft small mobile-only-btn" data-action="switch-to-editor">✏️ Edit details</button> <span>A4 paper · up to 5 products per page</span></div></div><div id="preview" class="quote-preview-pages"></div></section>' +
+            '<section class="preview-wrap" aria-label="Quotation preview"><div class="preview-heading"><div><strong>Live preview</strong> <span class="preview-mobile-hint">👉 Swipe horizontally to view full A4 sheet</span></div><div style="display:flex;align-items:center;gap:8px"><button type="button" class="button soft small" data-action="scroll-to-columns" title="Customize columns in quotation">⚙️ Columns (<span id="preview-col-count">' + activeColsCount + '</span>)</button><button type="button" class="button soft small mobile-only-btn" data-action="switch-to-editor">✏️ Edit details</button> <span>A4 paper · up to 5 products per page</span></div></div><div id="preview" class="quote-preview-pages"></div></section>' +
           '</div>' +
           '<div class="mobile-floating-bar" id="mobile-floating-bar">' +
             '<div class="mobile-floating-total"><span class="mobile-total-label">Total:</span><strong class="mobile-total-val" id="mobile-float-total">' + money(charge.grand, quote.currency) + '</strong></div>' +
@@ -1947,22 +2150,34 @@
           : '<span class="quote-logo-fallback" style="display:grid">' + escapeHtml((profile.name || 'Q').trim().slice(0, 1).toUpperCase()) + '</span>';
         var dateLabel = formattedDate(quote.date).replace(/\s+/g, '-');
         var validLabel = quote.validUntil ? formattedDate(quote.validUntil).replace(/\s+/g, '-') : '';
+        var visMap = getVisibleColumns(quote);
+        var activeCols = COLUMN_CONFIG.filter(function (col) { return !!visMap[col.key]; });
+        var totalColWeight = activeCols.reduce(function (w, col) { return w + (col.weight || 10); }, 0) || 100;
+        var colgroupHtml = '<colgroup>' + activeCols.map(function (col) {
+          var pct = ((col.weight || 10) / totalColWeight * 100).toFixed(1);
+          return '<col style="width:' + pct + '%">';
+        }).join('') + '</colgroup>';
+        var theadHtml = '<thead><tr>' + activeCols.map(function (col) {
+          var alignClass = col.align === 'center' ? ' class="align-center"' : (col.align === 'right' ? ' class="align-right"' : '');
+          return '<th' + alignClass + '>' + (col.label || col.title) + '</th>';
+        }).join('') + '</tr></thead>';
+        var summaryColspan = Math.max(1, activeCols.length - 1);
         var extraRows = '';
         if (items.length) {
           if (sum.totalItemDiscount > 0) {
-            extraRows += '<tr class="quote-summary-row"><td colspan="9">Gross items total</td><td class="align-right">' + money(sum.grossTotal, quote.currency) + '</td></tr>';
-            extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="9">Product discounts</td><td class="align-right">- ' + money(sum.totalItemDiscount, quote.currency) + '</td></tr>';
+            extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">Gross items total</td><td class="align-right">' + money(sum.grossTotal, quote.currency) + '</td></tr>';
+            extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="' + summaryColspan + '">Product discounts</td><td class="align-right">- ' + money(sum.totalItemDiscount, quote.currency) + '</td></tr>';
           }
-          extraRows += '<tr class="quote-summary-row"><td colspan="9">Items subtotal (before GST)</td><td class="align-right">' + money(sum.itemTotal, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">Items subtotal (before GST)</td><td class="align-right">' + money(sum.itemTotal, quote.currency) + '</td></tr>';
         }
         if (sum.discount) {
           var discLabel = sum.discountType === 'percent' ? 'Special discount (' + sum.discountVal + '%)' : 'Special discount';
-          extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="9">' + escapeHtml(discLabel) + '</td><td class="align-right">- ' + money(sum.discount, quote.currency) + '</td></tr>';
-          extraRows += '<tr class="quote-summary-row"><td colspan="9">Subtotal after discount</td><td class="align-right">' + money(sum.discountedSubtotal, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row" style="color:var(--green);font-weight:700"><td colspan="' + summaryColspan + '">' + escapeHtml(discLabel) + '</td><td class="align-right">- ' + money(sum.discount, quote.currency) + '</td></tr>';
+          extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">Subtotal after discount</td><td class="align-right">' + money(sum.discountedSubtotal, quote.currency) + '</td></tr>';
         }
-        if (sum.tax) extraRows += '<tr class="quote-summary-row"><td colspan="9">' + (productGst || quote.taxMode === 'product' ? 'Product-wise GST' : quote.taxMode === 'percent' ? 'GST (' + number(quote.taxRate) + '%)' : 'Tax') + '</td><td class="align-right">' + money(sum.tax, quote.currency) + '</td></tr>';
-        if (sum.freight) extraRows += '<tr class="quote-summary-row"><td colspan="9">Freight</td><td class="align-right">' + money(sum.freight, quote.currency) + '</td></tr>';
-        if (sum.other) extraRows += '<tr class="quote-summary-row"><td colspan="9">' + escapeHtml(quote.otherLabel || 'Other charges') + '</td><td class="align-right">' + money(sum.other, quote.currency) + '</td></tr>';
+        if (sum.tax) extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">' + (productGst || quote.taxMode === 'product' ? 'Product-wise GST' : quote.taxMode === 'percent' ? 'GST (' + number(quote.taxRate) + '%)' : 'Tax') + '</td><td class="align-right">' + money(sum.tax, quote.currency) + '</td></tr>';
+        if (sum.freight) extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">Freight</td><td class="align-right">' + money(sum.freight, quote.currency) + '</td></tr>';
+        if (sum.other) extraRows += '<tr class="quote-summary-row"><td colspan="' + summaryColspan + '">' + escapeHtml(quote.otherLabel || 'Other charges') + '</td><td class="align-right">' + money(sum.other, quote.currency) + '</td></tr>';
         var pages = [];
         for (var pageIndex = 0; pageIndex < pageCount; pageIndex += 1) {
           var pageItems = itemPages[pageIndex];
@@ -1977,11 +2192,56 @@
                 ? '<strong>' + c.discVal + '%</strong>' + (c.discAmount > 0 ? '<small style="color:var(--green);font-weight:700;display:block">- ' + money(c.discAmount, quote.currency) + '</small>' : '')
                 : '<strong>' + money(c.discAmount, quote.currency) + '</strong><small style="color:var(--green);font-weight:700;display:block">Flat</small>';
             }
-            return '<tr class="quote-item-row"><td class="align-center">' + serial + '</td><td class="align-center">' + escapeHtml(item.code || '—') + '</td><td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td><td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td><td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td><td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong><small style="display:block">GST ' + gstLabel + '</small></td><td class="align-right">' + discCellHtml + '</td><td class="align-center">' + escapeHtml(item.qty || '0') + '</td><td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : '—') + '</td><td class="align-right">' + money(c.lineTotal, quote.currency) + '</td></tr>';
+            var cellMap = {
+              serial: '<td class="align-center">' + serial + '</td>',
+              code: '<td class="align-center">' + escapeHtml(item.code || '—') + '</td>',
+              name: '<td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td>',
+              spec: '<td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td>',
+              photo: '<td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td>',
+              rate: '<td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong></td>',
+              discount: '<td class="align-right">' + discCellHtml + '</td>',
+              qty: '<td class="align-center">' + escapeHtml(item.qty || '0') + '</td>',
+              gst: '<td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : (c.gstRate > 0 ? money(c.gstAmount, quote.currency) : '—')) + '</td>',
+              total: '<td class="align-right">' + money(c.lineTotal, quote.currency) + '</td>'
+            };
+            var rowCells = activeCols.map(function (col) { return cellMap[col.key] || '<td></td>'; }).join('');
+            return '<tr class="quote-item-row">' + rowCells + '</tr>';
           }).join('');
           var finalPageRows = '';
           if (pageIndex === pageCount - 1) {
-            finalPageRows = extraRows + (items.length || sum.grand ? '<tr class="quote-grand-row"><td colspan="7">Total</td><td class="align-center">' + totalQuantity + '</td><td></td><td class="align-right">' + money(sum.grand, quote.currency) + '</td></tr>' : '');
+            var qtyColIdx = activeCols.findIndex(function (c) { return c.key === 'qty'; });
+            var grandRowHtml = '';
+            if (items.length || sum.grand) {
+              if (qtyColIdx > 0) {
+                var beforeQtySpan = qtyColIdx;
+                var afterQtyCount = activeCols.length - 1 - qtyColIdx;
+                var middleCells = '';
+                for (var mi = 0; mi < afterQtyCount - 1; mi++) {
+                  middleCells += '<td></td>';
+                }
+                grandRowHtml = '<tr class="quote-grand-row">' +
+                  '<td colspan="' + beforeQtySpan + '">Total</td>' +
+                  '<td class="align-center">' + totalQuantity + '</td>' +
+                  middleCells +
+                  '<td class="align-right">' + money(sum.grand, quote.currency) + '</td>' +
+                  '</tr>';
+              } else if (qtyColIdx === 0) {
+                var afterCount = activeCols.length - 2;
+                var cells = '';
+                for (var ci = 0; ci < afterCount; ci++) cells += '<td></td>';
+                grandRowHtml = '<tr class="quote-grand-row">' +
+                  '<td class="align-center">' + totalQuantity + '</td>' +
+                  cells +
+                  '<td class="align-right">' + money(sum.grand, quote.currency) + '</td>' +
+                  '</tr>';
+              } else {
+                grandRowHtml = '<tr class="quote-grand-row">' +
+                  '<td colspan="' + summaryColspan + '">Total (Qty: ' + totalQuantity + ')</td>' +
+                  '<td class="align-right">' + money(sum.grand, quote.currency) + '</td>' +
+                  '</tr>';
+              }
+            }
+            finalPageRows = extraRows + grandRowHtml;
           }
           var termsHtml = pageIndex === pageCount - 1
             ? (quote.includeTerms !== false ? '<div class="quote-terms"><h3>TERMS &amp; CONDITIONS:-</h3>' + (termLines.length ? '<ol>' + termLines.map(function (line) { return '<li>' + escapeHtml(line) + '</li>'; }).join('') + '</ol>' : '<div>No terms added</div>') + '</div>' : '') + (quote.note ? '<p class="quote-note">' + escapeHtml(quote.note) + '</p>' : '')
@@ -1992,12 +2252,14 @@
             '<div class="quote-meta-row"><span class="quote-meta-label">Quote No:</span><strong>' + escapeHtml(quote.number || '—') + '</strong></div>' +
             '<div class="quote-meta-row"><span class="quote-meta-label">Date:</span><strong>' + escapeHtml(dateLabel) + (validLabel ? ' &nbsp; | &nbsp; Valid until: ' + escapeHtml(validLabel) : '') + '</strong></div>' +
             '<div class="quote-meta-row"><span class="quote-meta-label">Customer:</span><strong>' + escapeHtml(customerName) + (customerMeta ? '<br>' + escapeHtml(customerMeta) : '') + '</strong></div></div>' +
-            '<table class="quote-items"><colgroup><col style="width:4%"><col style="width:6%"><col style="width:12%"><col style="width:13%"><col style="width:22%"><col style="width:12%"><col style="width:9%"><col style="width:6%"><col style="width:7%"><col style="width:9%"></colgroup>' +
-            '<thead><tr><th>S.NO.</th><th>CODE</th><th>ITEM NAME</th><th>SPECIFICATIONS</th><th>PHOTO</th><th>RATE / GST</th><th>DISCOUNT</th><th>QTY.</th><th>GST AMT</th><th>TOTAL</th></tr></thead><tbody>' + rows + finalPageRows + '</tbody></table>' + termsHtml + '</article>'
+            '<table class="quote-items">' + colgroupHtml + theadHtml + '<tbody>' + rows + finalPageRows + '</tbody></table>' + termsHtml + '</article>'
           );
         }
         target.innerHTML = pages.join('');
         if (isActiveQuote) {
+          updateColumnPillsUI(quote);
+          var previewColCount = document.getElementById('preview-col-count');
+          if (previewColCount) previewColCount.textContent = activeCols.length;
           var totalTarget = document.getElementById('editor-total');
           if (totalTarget) totalTarget.textContent = money(sum.grand, quote.currency);
           var floatTotal = document.getElementById('mobile-float-total');
@@ -2175,35 +2437,59 @@
         fallbackText(context, 'Page ' + pageIndex + ' of ' + pageCount, 16, 770, 580, { size: 7, align: 'right', color: '#667085', padding: 0 });
       }
 
-      function fallbackTableHeader(context, y) {
-        var columns = [.05, .06, .12, .14, .24, .15, .07, .08, .09];
-        var labels = ['S.NO.', 'CODE', 'ITEM NAME', 'SPECIFICATIONS', 'PHOTO', 'RATE / GST', 'QTY.', 'GST AMT', 'TOTAL'];
+      function fallbackTableHeader(context, y, quote) {
+        var visMap = quote ? getVisibleColumns(quote) : {};
+        var activeCols = COLUMN_CONFIG.filter(function (col) { return !quote || !!visMap[col.key]; });
+        var totalWeight = activeCols.reduce(function (w, col) { return w + (col.weight || 10); }, 0) || 100;
         var x = 16;
         context.fillStyle = '#bfd2e7';
         context.fillRect(16, y, 580, 18);
-        labels.forEach(function (label, index) {
-          var width = 580 * columns[index];
-          fallbackCell(context, label, x, y, width, 18, { size: 6.2, weight: 700, maxLines: 2, padding: 2 });
+        activeCols.forEach(function (col) {
+          var width = 580 * (col.weight || 10) / totalWeight;
+          fallbackCell(context, col.label || col.title, x, y, width, 18, { size: 6.2, weight: 700, maxLines: 2, padding: 2, align: col.align || 'left' });
           x += width;
         });
         return y + 18;
       }
 
       function fallbackItemRow(context, item, serial, y, images, quote) {
-        var columns = [.05, .06, .12, .14, .24, .15, .07, .08, .09];
+        var visMap = quote ? getVisibleColumns(quote) : {};
+        var activeCols = COLUMN_CONFIG.filter(function (col) { return !quote || !!visMap[col.key]; });
+        var totalWeight = activeCols.reduce(function (w, col) { return w + (col.weight || 10); }, 0) || 100;
         var rowHeight = 88;
         var c = itemCalculations(item, quote);
-        var discStr = c.discVal > 0 ? ' [Disc -' + (c.discType === 'percent' ? c.discVal + '%' : money(c.discAmount, quote.currency)) + ']' : '';
-        var rateGst = money(item.rate, quote.currency) + discStr + ' GST ' + (item.gstRate === '' || item.gstRate == null ? '—' : number(item.gstRate) + '%');
-        var values = [String(serial), item.code || '—', item.name || 'Item or service', item.spec || '—', '', rateGst, item.qty || '0', quote.taxMode === 'product' ? money(c.gstAmount, quote.currency) : '—', money(c.lineTotal, quote.currency)];
+        var discText = '—';
+        if (c.discVal > 0) {
+          discText = c.discType === 'percent' ? c.discVal + '%' : money(c.discAmount, quote.currency);
+        }
+        var cellValues = {
+          serial: String(serial),
+          code: item.code || '—',
+          name: item.name || 'Item or service',
+          spec: item.spec || '—',
+          photo: '__photo__',
+          rate: money(item.rate, quote.currency),
+          discount: discText,
+          qty: item.qty || '0',
+          gst: (usesProductGst(quote) || (c.gstRate > 0)) ? money(c.gstAmount, quote.currency) : '—',
+          total: money(c.lineTotal, quote.currency)
+        };
         var x = 16;
-        values.forEach(function (value, index) {
-          var width = 580 * columns[index];
-          if (index === 4) {
+        activeCols.forEach(function (col) {
+          var width = 580 * (col.weight || 10) / totalWeight;
+          if (col.key === 'photo') {
             context.strokeStyle = '#3b4654'; context.lineWidth = .7; context.strokeRect(x, y, width, rowHeight);
             fallbackImage(context, images[item._fallbackImageIndex] || null, x + 3, y + 4, width - 6, rowHeight - 8);
           } else {
-            fallbackCell(context, value, x, y, width, rowHeight, { size: index === 2 ? 7.4 : 6.8, weight: index === 2 || index === 5 ? 700 : 400, align: index === 0 || index === 1 || index === 6 ? 'center' : (index > 6 ? 'right' : 'left'), maxLines: index === 3 ? 5 : (index === 5 ? 3 : 4), padding: 3 });
+            var val = cellValues[col.key] || '';
+            var isBold = col.key === 'name' || col.key === 'rate' || col.key === 'total';
+            fallbackCell(context, val, x, y, width, rowHeight, {
+              size: col.key === 'name' ? 7.4 : 6.8,
+              weight: isBold ? 700 : 400,
+              align: col.align || 'left',
+              maxLines: col.key === 'spec' ? 5 : (col.key === 'rate' ? 2 : 4),
+              padding: 3
+            });
           }
           x += width;
         });
@@ -2255,7 +2541,7 @@
         var context = canvas.getContext('2d');
         context.scale(2, 2);
         fallbackHeader(context, quote, pageIndex, pageCount, assets.logo);
-        var y = fallbackTableHeader(context, 159);
+        var y = fallbackTableHeader(context, 159, quote);
         items.forEach(function (item) { y = fallbackItemRow(context, item, item._fallbackSerial, y, assets.images, quote); });
         if (includeSummary) y = fallbackSummary(context, quote, y + 10);
         if (includeTerms) fallbackTerms(context, quote, y + 16);
@@ -2935,6 +3221,15 @@
           imageReader.readAsDataURL(itemFile);
           return;
         }
+        if (target.hasAttribute('data-action') && target.getAttribute('data-action') === 'toggle-auto-hide') {
+          state.draft.autoHideEmptyColumns = target.checked;
+          draftDirty = true;
+          persist();
+          renderPreview();
+          updateColumnPillsUI(state.draft);
+          showToast(target.checked ? 'Auto-hide active (0 values hidden)' : 'Auto-hide disabled (all checked columns visible)');
+          return;
+        }
         if (target.hasAttribute('data-company')) {
           state.profile[target.getAttribute('data-company')] = target.value;
           persist();
@@ -2983,9 +3278,52 @@
           setView(viewButton.getAttribute('data-view'));
           return;
         }
+        var colToggleBtn = event.target.closest('[data-col-toggle]');
+        if (colToggleBtn) {
+          var colKey = colToggleBtn.getAttribute('data-col-toggle');
+          if (colKey) {
+            if (!state.draft.columns) state.draft.columns = Object.assign({}, defaultQuoteColumns);
+            var currentlyOn = state.draft.columns[colKey] !== false;
+            state.draft.columns[colKey] = !currentlyOn;
+            draftDirty = true;
+            persist();
+            renderPreview();
+            updateColumnPillsUI(state.draft);
+            var colDef = COLUMN_CONFIG.find(function (c) { return c.key === colKey; });
+            showToast((colDef ? colDef.title : colKey) + (state.draft.columns[colKey] ? ' column visible.' : ' column hidden.'));
+          }
+          return;
+        }
+        var scrollToCols = event.target.closest('[data-action="scroll-to-columns"]');
+        if (scrollToCols) {
+          var bar = document.getElementById('columns-customizer-bar');
+          if (bar) {
+            bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            bar.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+            bar.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.35)';
+            bar.style.borderColor = 'var(--blue)';
+            setTimeout(function () {
+              bar.style.boxShadow = '';
+              bar.style.borderColor = '';
+            }, 1200);
+          }
+          return;
+        }
         var button = event.target.closest('[data-action]');
         if (!button) return;
         var action = button.getAttribute('data-action');
+        if (action === 'reset-columns') {
+          state.draft.columns = Object.assign({}, defaultQuoteColumns);
+          state.draft.autoHideEmptyColumns = true;
+          draftDirty = true;
+          persist();
+          renderPreview();
+          updateColumnPillsUI(state.draft);
+          var autoCheck = document.querySelector('[data-action="toggle-auto-hide"]');
+          if (autoCheck) autoCheck.checked = true;
+          showToast('Table columns reset to default.');
+          return;
+        }
         if (action === 'logout') { logOut(); return; }
         if (action === 'new-quote') newQuotation();
         if (action === 'refresh-cloud') {
