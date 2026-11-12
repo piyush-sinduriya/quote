@@ -138,7 +138,7 @@
     .item-table th { padding: 0 5px 8px; color: #8893a7; text-align: left; font-size: 9px; font-weight: 750; letter-spacing: .3px; text-transform: uppercase; }
     .item-table td { padding: 4px; vertical-align: top; }
     .item-table input { padding: 8px 8px; font-size: 11px; }
-    .item-table .name-cell { min-width: 142px; }
+    .item-table .name-cell { min-width: 110px; }
     .item-table .spec-cell { min-width: 125px; }
     .item-table .code-cell { width: 70px; }
     .item-table .image-cell { width: 68px; }
@@ -1202,14 +1202,14 @@
       var COLUMN_CONFIG = [
         { key: 'serial', label: 'S.NO.', title: 'S.No.', weight: 4, align: 'center', canHide: true },
         { key: 'code', label: 'CODE', title: 'Code', weight: 6, align: 'center', canHide: true },
-        { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 16, align: 'left', canHide: false },
+        { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 11, align: 'left', canHide: false },
         { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 14, align: 'left', canHide: true },
         { key: 'photo', label: 'IMAGE', title: 'Image', weight: 18, align: 'middle', canHide: true },
         { key: 'mrp', label: 'MRP', title: 'MRP', weight: 8, align: 'right', canHide: true },
-        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 8, align: 'right', canHide: true },
+        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 7, align: 'right', canHide: true },
         { key: 'rate', label: 'RATE', title: 'Rate', weight: 8, align: 'right', canHide: true },
         { key: 'qty', label: 'QTY.', title: 'Quantity', weight: 6, align: 'center', canHide: true },
-        { key: 'gst', label: 'GST %', title: 'GST %', weight: 6, align: 'right', canHide: true },
+        { key: 'gst', label: 'GST %', title: 'GST %', weight: 7, align: 'right', canHide: true },
         { key: 'total', label: 'AMOUNT', title: 'Amount', weight: 10, align: 'right', canHide: false }
       ];
 
@@ -2069,7 +2069,7 @@
             '<td class="rate-cell"><input aria-label="Rate before GST" type="number" min="0" step="any" data-item-field="rate" data-index="' + index + '" value="' + escapeHtml(item.rate) + '" placeholder="0"></td>' +
             '<td class="discount-cell"><div class="row-discount-wrap"><input aria-label="Item discount" type="number" min="0" step="any" data-item-field="discount" data-index="' + index + '" value="' + escapeHtml(item.discount || '') + '" placeholder="0"><select data-item-field="discountType" data-index="' + index + '" aria-label="Discount unit"><option value="percent"' + ((item.discountType || 'percent') === 'percent' ? ' selected' : '') + '>%</option><option value="amount"' + (item.discountType === 'amount' ? ' selected' : '') + '>' + currSymbol + '</option></select></div></td>' +
             '<td class="gst-cell"><input aria-label="Product GST percentage" type="number" min="0" max="100" step="any" data-item-field="gstRate" data-index="' + index + '" value="' + escapeHtml(item.gstRate) + '" placeholder="%"></td>' +
-            '<td class="amount-cell" id="row-total-' + index + '">' + (item.code || item.name ? money(c.lineTotal, quote.currency) : '—') + '</td>' +
+            '<td class="amount-cell" id="row-total-' + index + '">' + (item.code || item.name ? money(c.taxable, quote.currency) : '—') + '</td>' +
             '<td class="remove-cell"><button type="button" class="icon-button" data-action="remove-item" data-index="' + index + '" aria-label="Remove item">×</button></td>' +
           '</tr>';
         }).join('');
@@ -2204,14 +2204,14 @@
             var gstLabel = item.gstRate !== '' && item.gstRate != null ? number(item.gstRate) + '%' : '—';
             var discCellHtml = '<span style="color:#94a3b8">—</span>';
             if (c.discVal > 0) {
-              discCellHtml = c.discType === 'percent'
-                ? '<strong>' + c.discVal + '%</strong>' + (c.discAmount > 0 ? '<small style="color:var(--green);font-weight:700;display:block">- ' + money(c.discAmount, quote.currency) + '</small>' : '')
-                : '<strong>' + money(c.discAmount, quote.currency) + '</strong><small style="color:var(--green);font-weight:700;display:block">Flat</small>';
+              var pct = c.discType === 'percent' ? c.discVal : (c.base > 0 ? Math.round((c.discAmount / c.base) * 100) : 0);
+              discCellHtml = '<strong>' + pct + '%</strong>';
             }
             var unitNetRate = c.qty > 0 ? (c.taxable / c.qty) : Math.max(0, number(item.rate) - c.discAmount);
+            var effectiveGstRate = c.gstRate > 0 ? c.gstRate : (quote && quote.taxMode === 'percent' && number(quote.taxRate) > 0 ? number(quote.taxRate) : 0);
             var gstCellHtml = '<span style="color:#94a3b8">—</span>';
-            if (productGst || c.gstRate > 0) {
-              gstCellHtml = '<strong>' + (c.gstRate > 0 ? c.gstRate + '%' : '0%') + '</strong>' + (c.gstAmount > 0 ? '<small style="color:#64748b;display:block">(' + money(c.gstAmount, quote.currency) + ')</small>' : '');
+            if (productGst || (quote && quote.taxMode === 'percent' && number(quote.taxRate) > 0) || c.gstRate > 0) {
+              gstCellHtml = '<strong>' + (effectiveGstRate > 0 ? effectiveGstRate + '%' : '0%') + '</strong>';
             }
             var cellMap = {
               serial: '<td class="align-center">' + serial + '</td>',
@@ -2224,7 +2224,7 @@
               rate: '<td class="align-right"><strong>' + money(unitNetRate, quote.currency) + '</strong></td>',
               qty: '<td class="align-center">' + escapeHtml(item.qty || '0') + '</td>',
               gst: '<td class="align-right">' + gstCellHtml + '</td>',
-              total: '<td class="align-right">' + money(c.lineTotal, quote.currency) + '</td>'
+              total: '<td class="align-right"><strong>' + money(c.taxable, quote.currency) + '</strong></td>'
             };
             var rowCells = activeCols.map(function (col) { return cellMap[col.key] || '<td></td>'; }).join('');
             return '<tr class="quote-item-row">' + rowCells + '</tr>';
@@ -2233,6 +2233,7 @@
           if (pageIndex === pageCount - 1) {
             var qtyColIdx = activeCols.findIndex(function (c) { return c.key === 'qty'; });
             var grandRowHtml = '';
+            var grandLabel = extraRows ? 'Grand Total' : 'Total';
             if (items.length || sum.grand) {
               if (qtyColIdx > 0) {
                 var beforeQtySpan = qtyColIdx;
@@ -2242,7 +2243,7 @@
                   middleCells += '<td></td>';
                 }
                 grandRowHtml = '<tr class="quote-grand-row">' +
-                  '<td colspan="' + beforeQtySpan + '">Total</td>' +
+                  '<td colspan="' + beforeQtySpan + '">' + grandLabel + '</td>' +
                   '<td class="align-center">' + totalQuantity + '</td>' +
                   middleCells +
                   '<td class="align-right">' + money(sum.grand, quote.currency) + '</td>' +
@@ -2258,7 +2259,7 @@
                   '</tr>';
               } else {
                 grandRowHtml = '<tr class="quote-grand-row">' +
-                  '<td colspan="' + summaryColspan + '">Total (Qty: ' + totalQuantity + ')</td>' +
+                  '<td colspan="' + summaryColspan + '">' + grandLabel + ' (Qty: ' + totalQuantity + ')</td>' +
                   '<td class="align-right">' + money(sum.grand, quote.currency) + '</td>' +
                   '</tr>';
               }
@@ -2289,7 +2290,7 @@
           (quote.items || []).forEach(function (item, index) {
             var rowTotal = document.getElementById('row-total-' + index);
             var c = itemCalculations(item, quote);
-            if (rowTotal) rowTotal.textContent = item.code || item.name ? money(c.lineTotal, quote.currency) : '—';
+            if (rowTotal) rowTotal.textContent = item.code || item.name ? money(c.taxable, quote.currency) : '—';
           });
         }
       }
@@ -2483,11 +2484,13 @@
         var unitNetRate = c.qty > 0 ? (c.taxable / c.qty) : Math.max(0, number(item.rate) - c.discAmount);
         var discText = '—';
         if (c.discVal > 0) {
-          discText = c.discType === 'percent' ? c.discVal + '%' : money(c.discAmount, quote.currency);
+          var pct = c.discType === 'percent' ? c.discVal : (c.base > 0 ? Math.round((c.discAmount / c.base) * 100) : 0);
+          discText = pct + '%';
         }
         var gstText = '—';
-        if (usesProductGst(quote) || (c.gstRate > 0)) {
-          gstText = c.gstRate > 0 ? c.gstRate + '%' : '0%';
+        if (usesProductGst(quote) || (quote && quote.taxMode === 'percent' && number(quote.taxRate) > 0) || (c.gstRate > 0)) {
+          var effectiveGstRate = c.gstRate > 0 ? c.gstRate : (quote && quote.taxMode === 'percent' && number(quote.taxRate) > 0 ? number(quote.taxRate) : 0);
+          gstText = effectiveGstRate > 0 ? effectiveGstRate + '%' : '0%';
         }
         var cellValues = {
           serial: String(serial),
@@ -2500,7 +2503,7 @@
           rate: money(unitNetRate, quote.currency),
           qty: item.qty || '0',
           gst: gstText,
-          total: money(c.lineTotal, quote.currency)
+          total: money(c.taxable, quote.currency)
         };
         var x = 16;
         activeCols.forEach(function (col) {
