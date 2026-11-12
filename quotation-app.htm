@@ -1191,8 +1191,9 @@
         name: true,
         spec: true,
         photo: true,
-        rate: true,
+        mrp: true,
         discount: true,
+        rate: true,
         qty: true,
         gst: true,
         total: true
@@ -1200,15 +1201,16 @@
 
       var COLUMN_CONFIG = [
         { key: 'serial', label: 'S.NO.', title: 'S.No.', weight: 4, align: 'center', canHide: true },
-        { key: 'code', label: 'CODE', title: 'Code', weight: 6.5, align: 'center', canHide: true },
-        { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 17, align: 'left', canHide: false },
-        { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 15, align: 'left', canHide: true },
-        { key: 'photo', label: 'PHOTO', title: 'Photo', weight: 20, align: 'middle', canHide: true },
-        { key: 'rate', label: 'RATE', title: 'Rate', weight: 11, align: 'right', canHide: true },
-        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 9, align: 'right', canHide: true },
+        { key: 'code', label: 'CODE', title: 'Code', weight: 6, align: 'center', canHide: true },
+        { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 16, align: 'left', canHide: false },
+        { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 14, align: 'left', canHide: true },
+        { key: 'photo', label: 'IMAGE', title: 'Image', weight: 18, align: 'middle', canHide: true },
+        { key: 'mrp', label: 'MRP', title: 'MRP', weight: 8, align: 'right', canHide: true },
+        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 8, align: 'right', canHide: true },
+        { key: 'rate', label: 'RATE', title: 'Rate', weight: 8, align: 'right', canHide: true },
         { key: 'qty', label: 'QTY.', title: 'Quantity', weight: 6, align: 'center', canHide: true },
-        { key: 'gst', label: 'GST AMT', title: 'GST', weight: 8, align: 'right', canHide: true },
-        { key: 'total', label: 'TOTAL', title: 'Total', weight: 9.5, align: 'right', canHide: false }
+        { key: 'gst', label: 'GST %', title: 'GST %', weight: 6, align: 'right', canHide: true },
+        { key: 'total', label: 'AMOUNT', title: 'Amount', weight: 10, align: 'right', canHide: false }
       ];
 
       function getVisibleColumns(quote) {
@@ -1227,7 +1229,7 @@
         var result = {};
         COLUMN_CONFIG.forEach(function (def) {
           var isChecked = baseCols[def.key] !== false;
-          if (def.key === 'discount') {
+          if (def.key === 'mrp' || def.key === 'discount') {
             result[def.key] = isChecked && (!autoHide || hasItemDiscount);
           } else if (def.key === 'gst') {
             result[def.key] = isChecked && (!autoHide || quoteHasTax);
@@ -1255,7 +1257,14 @@
           var isChecked = cols[def.key] !== false;
           var statusText = '';
           var isAutoHidden = false;
-          if (def.key === 'discount') {
+          if (def.key === 'mrp') {
+            if (isChecked && autoHide && !hasItemDiscount) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0)';
+            } else if (isChecked && hasItemDiscount) {
+              statusText = ' (Active)';
+            }
+          } else if (def.key === 'discount') {
             if (isChecked && autoHide && !hasItemDiscount) {
               isAutoHidden = true;
               statusText = ' (Auto: 0)';
@@ -1292,9 +1301,9 @@
               '<span class="column-visibility-sub">Hide or unhide any column in live preview &amp; print</span>' +
             '</div>' +
             '<div class="column-visibility-actions">' +
-              '<label class="auto-hide-toggle" title="Automatically hide Discount and GST columns when not applied (0)">' +
+              '<label class="auto-hide-toggle" title="Automatically hide MRP, Discount and GST columns when not applied (0)">' +
                 '<input type="checkbox" data-action="toggle-auto-hide"' + (autoHide ? ' checked' : '') + '> ' +
-                '<span>Auto-hide Discount &amp; GST if 0</span>' +
+                '<span>Auto-hide MRP, Discount &amp; GST if 0</span>' +
               '</label>' +
               '<button type="button" class="text-button" data-action="reset-columns" style="font-size:11px;color:var(--blue)">Reset columns</button>' +
             '</div>' +
@@ -1322,7 +1331,14 @@
           var isChecked = cols[def.key] !== false;
           var statusText = '';
           var isAutoHidden = false;
-          if (def.key === 'discount') {
+          if (def.key === 'mrp') {
+            if (isChecked && autoHide && !hasItemDiscount) {
+              isAutoHidden = true;
+              statusText = ' (Auto: 0)';
+            } else if (isChecked && hasItemDiscount) {
+              statusText = ' (Active)';
+            }
+          } else if (def.key === 'discount') {
             if (isChecked && autoHide && !hasItemDiscount) {
               isAutoHidden = true;
               statusText = ' (Auto: 0)';
@@ -2192,16 +2208,22 @@
                 ? '<strong>' + c.discVal + '%</strong>' + (c.discAmount > 0 ? '<small style="color:var(--green);font-weight:700;display:block">- ' + money(c.discAmount, quote.currency) + '</small>' : '')
                 : '<strong>' + money(c.discAmount, quote.currency) + '</strong><small style="color:var(--green);font-weight:700;display:block">Flat</small>';
             }
+            var unitNetRate = c.qty > 0 ? (c.taxable / c.qty) : Math.max(0, number(item.rate) - c.discAmount);
+            var gstCellHtml = '<span style="color:#94a3b8">—</span>';
+            if (productGst || c.gstRate > 0) {
+              gstCellHtml = '<strong>' + (c.gstRate > 0 ? c.gstRate + '%' : '0%') + '</strong>' + (c.gstAmount > 0 ? '<small style="color:#64748b;display:block">(' + money(c.gstAmount, quote.currency) + ')</small>' : '');
+            }
             var cellMap = {
               serial: '<td class="align-center">' + serial + '</td>',
               code: '<td class="align-center">' + escapeHtml(item.code || '—') + '</td>',
               name: '<td><strong>' + escapeHtml(item.name || 'Item or service') + '</strong></td>',
               spec: '<td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td>',
               photo: '<td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td>',
-              rate: '<td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong></td>',
+              mrp: '<td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong></td>',
               discount: '<td class="align-right">' + discCellHtml + '</td>',
+              rate: '<td class="align-right"><strong>' + money(unitNetRate, quote.currency) + '</strong></td>',
               qty: '<td class="align-center">' + escapeHtml(item.qty || '0') + '</td>',
-              gst: '<td class="align-right">' + (productGst ? money(c.gstAmount, quote.currency) : (c.gstRate > 0 ? money(c.gstAmount, quote.currency) : '—')) + '</td>',
+              gst: '<td class="align-right">' + gstCellHtml + '</td>',
               total: '<td class="align-right">' + money(c.lineTotal, quote.currency) + '</td>'
             };
             var rowCells = activeCols.map(function (col) { return cellMap[col.key] || '<td></td>'; }).join('');
@@ -2458,9 +2480,14 @@
         var totalWeight = activeCols.reduce(function (w, col) { return w + (col.weight || 10); }, 0) || 100;
         var rowHeight = 88;
         var c = itemCalculations(item, quote);
+        var unitNetRate = c.qty > 0 ? (c.taxable / c.qty) : Math.max(0, number(item.rate) - c.discAmount);
         var discText = '—';
         if (c.discVal > 0) {
           discText = c.discType === 'percent' ? c.discVal + '%' : money(c.discAmount, quote.currency);
+        }
+        var gstText = '—';
+        if (usesProductGst(quote) || (c.gstRate > 0)) {
+          gstText = c.gstRate > 0 ? c.gstRate + '%' : '0%';
         }
         var cellValues = {
           serial: String(serial),
@@ -2468,10 +2495,11 @@
           name: item.name || 'Item or service',
           spec: item.spec || '—',
           photo: '__photo__',
-          rate: money(item.rate, quote.currency),
+          mrp: money(item.rate, quote.currency),
           discount: discText,
+          rate: money(unitNetRate, quote.currency),
           qty: item.qty || '0',
-          gst: (usesProductGst(quote) || (c.gstRate > 0)) ? money(c.gstAmount, quote.currency) : '—',
+          gst: gstText,
           total: money(c.lineTotal, quote.currency)
         };
         var x = 16;
@@ -2482,12 +2510,12 @@
             fallbackImage(context, images[item._fallbackImageIndex] || null, x + 3, y + 4, width - 6, rowHeight - 8);
           } else {
             var val = cellValues[col.key] || '';
-            var isBold = col.key === 'name' || col.key === 'rate' || col.key === 'total';
+            var isBold = col.key === 'name' || col.key === 'rate' || col.key === 'total' || col.key === 'mrp';
             fallbackCell(context, val, x, y, width, rowHeight, {
               size: col.key === 'name' ? 7.4 : 6.8,
               weight: isBold ? 700 : 400,
               align: col.align || 'left',
-              maxLines: col.key === 'spec' ? 5 : (col.key === 'rate' ? 2 : 4),
+              maxLines: col.key === 'spec' ? 5 : (col.key === 'rate' || col.key === 'mrp' ? 2 : 4),
               padding: 3
             });
           }
