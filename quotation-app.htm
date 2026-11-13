@@ -228,8 +228,8 @@
     .quote-items { width: 100%; margin-top: 0; border-collapse: collapse; table-layout: fixed; }
     .quote-items th, .quote-items td { border: 1px solid #444; }
     .quote-items thead { color: #111; background: #bfd2e7; }
-    .quote-items th { padding: 5px 4px; font-size: 8.5px; line-height: 1.1; text-align: left; font-weight: 800; }
-    .quote-items td { min-height: 25px; padding: 5px 4px; color: #171717; font-size: 9px; line-height: 1.2; vertical-align: middle; overflow-wrap: anywhere; }
+    .quote-items th { padding: 5px 3px; font-size: 8px; line-height: 1.1; text-align: left; font-weight: 800; letter-spacing: -0.1px; overflow: hidden; box-sizing: border-box; }
+    .quote-items td { min-height: 25px; padding: 5px 3px; color: #171717; font-size: 8.5px; line-height: 1.2; vertical-align: middle; overflow-wrap: anywhere; box-sizing: border-box; }
     .quote-items td strong { display: block; color: #171717; font-size: 9px; line-height: 1.25; }
     .quote-items td small { display: block; margin-top: 2px; color: #333; font-size: 8px; line-height: 1.25; white-space: pre-line; }
     .quote-items .align-right { text-align: right; }
@@ -902,14 +902,15 @@
       .quote-band { padding: .4mm; font-size: 13.5pt; line-height: 1.03; }
       .quote-meta-row { min-height: 4mm; grid-template-columns: 26% minmax(0, 1fr); font-size: 7.5pt; line-height: 1.08; }
       .quote-meta-label, .quote-meta-row strong { padding: .45mm 1.1mm; font-size: 7.5pt; }
-      .quote-items { width: 100% !important; margin-top: 0; border-collapse: collapse; break-inside: auto; page-break-inside: auto; }
+      .quote-items { width: 100% !important; margin-top: 0; border-collapse: collapse; break-inside: auto; page-break-inside: auto; table-layout: fixed !important; }
+      .quote-items th, .quote-items td { border: 1px solid #444 !important; }
       .quote-items thead { display: table-header-group; }
       .quote-items tfoot { display: table-footer-group; }
       .quote-items tr { break-inside: avoid; page-break-inside: avoid; }
-      .quote-items th { padding: 1.1mm .7mm; font-size: 7.5pt; line-height: 1.05; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-      .quote-items td { padding: .9mm .7mm; font-size: 8.25pt; line-height: 1.12; }
-      .quote-items td strong { font-size: 8.75pt; }
-      .quote-items td small { font-size: 7.6pt; line-height: 1.15; }
+      .quote-items th { padding: 1mm .5mm; font-size: 7pt; line-height: 1.08; letter-spacing: -0.15px; print-color-adjust: exact; -webkit-print-color-adjust: exact; overflow: hidden; box-sizing: border-box; }
+      .quote-items td { padding: .8mm .5mm; font-size: 8pt; line-height: 1.12; box-sizing: border-box; }
+      .quote-items td strong { font-size: 8.5pt; }
+      .quote-items td small { font-size: 7.2pt; line-height: 1.15; }
       .quote-items tbody tr.quote-item-row { height: 32.5mm; }
       .quote-page-items-1 .quote-item-row { height: 84mm; }
       .quote-page-items-2 .quote-item-row { height: 62mm; }
@@ -1201,15 +1202,15 @@
 
       var COLUMN_CONFIG = [
         { key: 'serial', label: 'S.NO.', title: 'S.No.', weight: 4, align: 'center', canHide: true },
-        { key: 'code', label: 'CODE', title: 'Code', weight: 6, align: 'center', canHide: true },
+        { key: 'code', label: 'CODE', title: 'Code', weight: 5.5, align: 'center', canHide: true },
         { key: 'name', label: 'ITEM NAME', title: 'Item Name', weight: 11, align: 'left', canHide: false },
-        { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 14, align: 'left', canHide: true },
-        { key: 'photo', label: 'IMAGE', title: 'Image', weight: 18, align: 'middle', canHide: true },
-        { key: 'mrp', label: 'MRP', title: 'MRP', weight: 8, align: 'right', canHide: true },
-        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 7, align: 'right', canHide: true },
+        { key: 'spec', label: 'SPECIFICATIONS', title: 'Specifications', weight: 13.5, align: 'left', canHide: true },
+        { key: 'photo', label: 'IMAGE', title: 'Image', weight: 16.5, align: 'middle', canHide: true },
+        { key: 'mrp', label: 'MRP', title: 'MRP', weight: 7.5, align: 'right', canHide: true },
+        { key: 'discount', label: 'DISCOUNT', title: 'Discount', weight: 9, align: 'center', canHide: true },
         { key: 'rate', label: 'RATE', title: 'Rate', weight: 8, align: 'right', canHide: true },
-        { key: 'qty', label: 'QTY.', title: 'Quantity', weight: 6, align: 'center', canHide: true },
-        { key: 'gst', label: 'GST %', title: 'GST %', weight: 7, align: 'right', canHide: true },
+        { key: 'qty', label: 'QTY.', title: 'Quantity', weight: 5.5, align: 'center', canHide: true },
+        { key: 'gst', label: 'GST %', title: 'GST %', weight: 6.5, align: 'center', canHide: true },
         { key: 'total', label: 'AMOUNT', title: 'Amount', weight: 10, align: 'right', canHide: false }
       ];
 
@@ -2220,10 +2221,10 @@
               spec: '<td>' + (item.spec ? escapeHtml(item.spec) : '—') + '</td>',
               photo: '<td class="align-middle"><div class="quote-item-image-box">' + image + '</div></td>',
               mrp: '<td class="align-right"><strong>' + money(item.rate, quote.currency) + '</strong></td>',
-              discount: '<td class="align-right">' + discCellHtml + '</td>',
+              discount: '<td class="align-center">' + discCellHtml + '</td>',
               rate: '<td class="align-right"><strong>' + money(unitNetRate, quote.currency) + '</strong></td>',
               qty: '<td class="align-center">' + escapeHtml(item.qty || '0') + '</td>',
-              gst: '<td class="align-right">' + gstCellHtml + '</td>',
+              gst: '<td class="align-center">' + gstCellHtml + '</td>',
               total: '<td class="align-right"><strong>' + money(c.taxable, quote.currency) + '</strong></td>'
             };
             var rowCells = activeCols.map(function (col) { return cellMap[col.key] || '<td></td>'; }).join('');
